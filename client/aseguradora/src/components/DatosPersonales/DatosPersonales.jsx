@@ -4,7 +4,7 @@ import InputGlobal from "../InputGlobal/InputGlobal";
 import Button from "../Button/Button";
 import ButtonVolver from "../BottonVolver/BottonVolver";
 import { useNavigate, useLocation } from "react-router-dom";
-import Axios from "axios";
+/* import Axios from "axios"; */
 
 function DatosPersonales() {
   const navigate = useNavigate();
@@ -33,16 +33,20 @@ function DatosPersonales() {
     setDatosPersonales({ ...datosPersonales, [name]: value });
   };
 
-  const handleFinalizar = async () => {
+  const handleContinuarClick = () => {
+    navigate("/adjuntar-foto");
+  };
+
+ /*  const handleFinalizar = async () => {
     try {
       // Hacer la solicitud para guardar los datos personales
-      const response1 = await Axios.post("http://192.168.100.5:3001/datos-personales", {
+      const response1 = await Axios.post("http://192.168.100.187:3001/datos-personales", {
         datosPersonales,
       });
   
       if (response1.data.id_datosPersonales) {
         // Si la primera solicitud fue exitosa, procede con la segunda solicitud
-        const response2 = await Axios.post("http://192.168.100.5:3001/datos-objeto", {
+        const response2 = await Axios.post("http://192.168.100.187:3001/datos-objeto", {
           datosObjeto,
         });
   
@@ -58,7 +62,7 @@ function DatosPersonales() {
     } catch (error) {
       alert(error);
     }
-  };
+  }; */
 
   const goBack = () => {
     navigate(-1); // Utiliza navigate con un valor negativo para retroceder
@@ -186,7 +190,7 @@ function DatosPersonales() {
       </form>
       <div className="div_bt-opciones">
         <ButtonVolver onClick={goBack} titulo="Volver"></ButtonVolver>
-        <Button titulo="Continuar" onClick={handleFinalizar}></Button>
+        <Button titulo="Continuar" onClick={handleContinuarClick}></Button>
       </div>
     </div>
   );

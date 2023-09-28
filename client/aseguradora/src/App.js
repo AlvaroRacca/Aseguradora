@@ -8,6 +8,7 @@ import Header from "./components/Header/Header";
 import Menu from "./components/Menu/Menu";
 import CotizacionRapida from "./components/CotizacionRapida/CotizacionRapida";
 import MotoCotizacionRapida from "./components/Moto/Moto-cotizacion-rapida";
+import Foto from "./components/Foto/Foto";
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
@@ -24,6 +25,10 @@ function App() {
           <Route path="/auto" element={<Auto />} />
           <Route path="/celular" element={<Celular />} />
           <Route path="/cotizacion-rapida" element={<CotizacionRapida />} />
+          <Route
+            path="/adjuntar-foto"
+            element={<Foto />}
+          />
           <Route
             path="/cotizacion-rapida-moto"
             element={<MotoCotizacionRapida />}

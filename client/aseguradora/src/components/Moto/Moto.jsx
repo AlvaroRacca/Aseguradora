@@ -76,6 +76,9 @@ function Moto() {
             value={datosObjeto.Estado_Vehiculo}
             onChange={handleInputChange}
           >
+            <option value="" disabled selected>
+              Seleccionar
+            </option>
             <option value="Malo">Malo</option>
             <option value="Intermedio">Intermedio</option>
             <option value="Bueno">Bueno</option>
