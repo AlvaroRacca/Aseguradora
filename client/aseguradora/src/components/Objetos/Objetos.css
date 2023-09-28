@@ -1,0 +1,16 @@
+.seleccion-objeto-h1{
+    text-align: center;
+    margin: 100px auto;
+    margin-bottom: 50px;
+}
+
+a {
+    text-decoration: none;
+  }
+
+.div_bt-opciones{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin: 0 auto;
+}

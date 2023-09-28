@@ -1,0 +1,38 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: #f0f0f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+}
+
+.header__title {
+  margin: 0;
+}
+
+.header__nav {
+  display: flex;
+  gap: 10px;
+}
+
+.header__button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.header__button:hover {
+  background-color: #0056b3;
+}
+
+.div-bt-inicio {
+  margin-top: 200px;
+}

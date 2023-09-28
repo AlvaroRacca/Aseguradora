@@ -1,0 +1,16 @@
+.formulario-personal{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Dos columnas de igual ancho */
+    grid-gap: 10px; /* Espacio entre elementos */
+    width: 70%;
+    margin: 0 auto;
+    padding-bottom: 20px;
+    border-radius: 20px;
+    background-color: rgb(255, 255, 255);
+  }
+
+.datos-personales-h1{
+    text-align: center;
+    margin-top: 80px;
+  }
+
