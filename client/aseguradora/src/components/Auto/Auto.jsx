@@ -4,9 +4,17 @@ import InputGlobal from "../InputGlobal/InputGlobal";
 import Button from "../Button/Button";
 import ButtonVolver from "../BottonVolver/BottonVolver";
 import { Link, Outlet, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+
 
 function Auto() {
   const navigate = useNavigate();
+
+   /* Alerttaaaaaa */
+   const MySwal = withReactContent(Swal);
+   /* ----------------- */
+
 
   const [datosObjeto, setDatosObjeto] = useState({
     Tipo_objeto: "auto",
@@ -22,12 +30,41 @@ function Auto() {
     Seguros: "",
   });
 
+
+  const [camposCompletos, setCamposCompletos] = useState({
+    Marca: false,
+    Modelo: false,
+    Año: false,
+    Gamma: false,
+    GNC: false,
+    Patente: false,
+    Km: false,
+    Estado_Cubiertas: false,
+    Estado_Vehiculo: false,
+    Seguros: false,
+  });
+
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setDatosObjeto({ ...datosObjeto, [name]: value });
+    setCamposCompletos({ ...camposCompletos, [name]: Boolean(value) });
   };
-
+  
   const handleContinuarClick = () => {
+    const camposIncompletos = Object.keys(camposCompletos).filter(
+      (campo) => !camposCompletos[campo]
+    );
+
+    if (camposIncompletos.length > 0) {
+      Swal.fire({
+        icon: "error",
+        title: "Campos Incompletos!",
+        text: "Verificar campos incompletos...",
+      });
+      return;
+    }
+
     navigate("/datos-personales", { state: { datosObjeto } });
   };
 
@@ -83,12 +120,13 @@ function Auto() {
             Estado del Vehiculo
           </label>
           <select
-            className="select"
-            name="Estado_Vehiculo"
+          id="select"
+            name="Estado_Vehiculo" 
+            required
             value={datosObjeto.Estado_Vehiculo}
             onChange={handleInputChange}
           >
-            <option selected disabled>
+            <option value="" disabled selected>
               Estado
             </option>
             <option value="Malo">Malo</option>
@@ -102,12 +140,12 @@ function Auto() {
             Estado de Cubiertas
           </label>
           <select
-            className="select"
+          id="select"
             name="Estado_Cubiertas"
             value={datosObjeto.Estado_Cubiertas}
             onChange={handleInputChange}
           >
-            <option selected disabled>
+            <option value="" disabled selected>
               Estado
             </option>
             <option value="25%">25%</option>
@@ -122,6 +160,7 @@ function Auto() {
           required
           placeholder=""
           name="Km"
+          type="number"
           value={datosObjeto.Km}
           onChange={handleInputChange}
         ></InputGlobal>
@@ -130,12 +169,12 @@ function Auto() {
             GNC
           </label>
           <select
-            className="select"
+          id="select"
             name="GNC"
             value={datosObjeto.GNC}
             onChange={handleInputChange}
           >
-            <option selected disabled>
+            <option value="" disabled selected>
               GNC
             </option>
             <option value="SI">SI</option>
@@ -147,12 +186,12 @@ function Auto() {
             Seguro a Cotizar
           </label>
           <select
-            className="select"
+          id="select"
             name="Seguros"
             value={datosObjeto.Seguros}
             onChange={handleInputChange}
           >
-            <option selected disabled>
+            <option value="" disabled selected>
               Seguros
             </option>
             <option value="Seguro básico">Seguro básico</option>

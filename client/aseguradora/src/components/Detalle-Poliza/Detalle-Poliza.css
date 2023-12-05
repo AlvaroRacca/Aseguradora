@@ -1,0 +1,71 @@
+.detalle-informe-container {
+  padding: 20px;
+}
+
+.h1-titulo-detalle {
+  margin-top: 5%;
+}
+
+.detalle-informe-columns {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
+
+.detalle-informe-columns p {
+  flex: 1 0 48%;
+  margin: 0 1%;
+  padding: 5px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.detalle-informe-columns h2 {
+  color: #333; /* Color del texto para los títulos */
+  margin-bottom: 10px;
+}
+
+.detalle-informe-columns input {
+  border: none;
+  font-size: 17px;
+  border-radius: 5px;
+  background-color: #f9f9f9; /* Utiliza el mismo fondo que los párrafos */
+}
+
+.detalle-informe-columns p.is-empty {
+  background-color: rgba(255, 0, 0, 0.534);
+}
+
+.detalle-informe-columns input.is-empty{
+  margin: 0 10px;
+  background-color: rgba(255, 174, 174, 0.459);
+}
+
+.bt-agregar-meses{
+  border: none;
+  padding: 5px 5px;
+  background-color: white;
+  border-radius: 5px;
+}
+
+
+
+.detalle-informe-columns p.fecha-vencida {
+  background-color: rgba(255, 0, 0, 0.534); /* Cambia el color a rojo si la fecha está vencida */
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-spinner {
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid #0099ff;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: 20% auto;
+}

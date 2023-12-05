@@ -1,3 +1,4 @@
+/* Estilos CSS para el header */
 .header {
   position: fixed;
   top: 0;
@@ -8,6 +9,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
+  text-align: center; /* Centra el texto en dispositivos móviles */
 }
 
 .header__title {
@@ -33,6 +35,16 @@
   background-color: #0056b3;
 }
 
-.div-bt-inicio {
-  margin-top: 200px;
+/* Media query para dispositivos móviles */
+@media (max-width: 768px) {
+  .header {
+    position: relative; /* Cambia de fixed a relative */
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .header__nav {
+    margin-top: 10px;
+  }
 }

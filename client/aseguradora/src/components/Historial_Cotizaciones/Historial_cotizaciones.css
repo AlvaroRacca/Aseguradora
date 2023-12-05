@@ -1,0 +1,58 @@
+/* Estilos para el contenedor principal */
+.cotizaciones-container {
+  max-width: 90%;
+  margin: auto;
+}
+
+.h1-cotizacion{
+  margin-top: 7%;
+}
+
+/* Estilos para cada elemento de la lista de cotizaciones */
+.cotizacion-item {
+  border: 1px solid #ddd;
+    margin: 10px auto;
+    padding: 10px;
+    border-radius: 5px;
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+    background-color: #f9f9f9;
+    cursor: pointer;
+}
+
+/* Estilos para el fondo verde cuando el estado es "Contactado" */
+.contactado {
+  background-color: rgba(41, 189, 21, 0.534);
+}
+
+.loading-spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.loading-spinner {
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid #0099ff;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-spinner {
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid #0099ff;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: 10% auto;
+}

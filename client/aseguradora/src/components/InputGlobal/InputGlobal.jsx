@@ -2,13 +2,13 @@ import React from "react";
 import "./InputGlobal.css";
 
 const InputGlobal = (props) => {
-  const { titulo, type = "text" } = props;
+  const { titulo, type = "text", required } = props;
   return (
       <div className="form__group field">
         <input
           className="form__field"
           placeholder={props.placeholder}
-          required={props.required}
+          required={required}
           type={type}
           value={props.value}
           onChange={props.onChange} // Configurar la función onChange para actualizar el estado

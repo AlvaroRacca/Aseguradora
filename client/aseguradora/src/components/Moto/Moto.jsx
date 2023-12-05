@@ -3,9 +3,14 @@ import InputGlobal from "../InputGlobal/InputGlobal";
 import Button from "../Button/Button";
 import ButtonVolver from "../BottonVolver/BottonVolver";
 import { Link, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 function Moto() {
   const navigate = useNavigate();
+  /* Alerttaaaaaa */
+  const MySwal = withReactContent(Swal);
+  /* ----------------- */
 
   const [datosObjeto, setDatosObjeto] = useState({
     Tipo_objeto: "moto",
@@ -16,14 +21,40 @@ function Moto() {
     Estado_Cubiertas: "",
     Estado_Vehiculo: "",
     Seguros: "",
+    patenteMoto: "",
+  });
+
+  const [camposCompletos, setCamposCompletos] = useState({
+    Marca: false,
+    Modelo: false,
+    Año: false,
+    Km: false,
+    Estado_Cubiertas: false,
+    Estado_Vehiculo: false,
+    Seguros: false,
+    patenteMoto: false,
   });
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setDatosObjeto({ ...datosObjeto, [name]: value });
+    setCamposCompletos({ ...camposCompletos, [name]: Boolean(value) });
   };
 
   const handleContinuarClick = () => {
+    const camposIncompletos = Object.keys(camposCompletos).filter(
+      (campo) => !camposCompletos[campo]
+    );
+
+    if (camposIncompletos.length > 0) {
+      Swal.fire({
+        icon: "error",
+        title: "Campos Incompletos!",
+        text: "Verificar campos incompletos...",
+      });
+      return;
+    }
+
     navigate("/datos-personales", { state: { datosObjeto } });
   };
 
@@ -55,6 +86,7 @@ function Moto() {
           titulo="Año"
           required
           placeholder=""
+          type="number"
           value={datosObjeto.Año}
           onChange={handleInputChange}
         ></InputGlobal>
@@ -63,7 +95,16 @@ function Moto() {
           titulo="Km"
           required
           placeholder=""
+          type="number"
           value={datosObjeto.Km}
+          onChange={handleInputChange}
+        ></InputGlobal>
+        <InputGlobal
+          name="patenteMoto"
+          titulo="Patente"
+          required
+          placeholder=""
+          value={datosObjeto.patenteMoto}
           onChange={handleInputChange}
         ></InputGlobal>
         <div className="form__group field">
@@ -71,13 +112,13 @@ function Moto() {
             Estado del Vehiculo
           </label>
           <select
-            className="select"
+            id="select"
             name="Estado_Vehiculo"
             value={datosObjeto.Estado_Vehiculo}
             onChange={handleInputChange}
           >
             <option value="" disabled selected>
-              Seleccionar
+              Estado
             </option>
             <option value="Malo">Malo</option>
             <option value="Intermedio">Intermedio</option>
@@ -90,11 +131,14 @@ function Moto() {
             Estado de Cubiertas
           </label>
           <select
-            className="select"
+            id="select"
             name="Estado_Cubiertas"
             value={datosObjeto.Estado_Cubiertas}
             onChange={handleInputChange}
           >
+            <option value="" disabled selected>
+              Estado
+            </option>
             <option value="25%">25%</option>
             <option value="50%">50%</option>
             <option value="75%">75%</option>
@@ -106,11 +150,14 @@ function Moto() {
             Seguro a Cotizar
           </label>
           <select
-            className="select"
+            id="select"
             name="Seguros"
             value={datosObjeto.Seguros}
             onChange={handleInputChange}
           >
+            <option value="" disabled selected>
+              Seguro
+            </option>
             <option value="Seguro básico">Seguro básico</option>
             <option value="Seguro contra terceros">
               Seguro contra terceros

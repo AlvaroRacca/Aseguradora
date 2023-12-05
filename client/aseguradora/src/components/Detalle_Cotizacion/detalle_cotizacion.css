@@ -1,0 +1,63 @@
+/* detalle_cotizacion.css */
+
+.detalle-cotizacion-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .h1-titulo-cotizacion {
+    margin-top: 5%;
+  }
+  
+  .detalle-cotizacion-columna {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 15px;
+  }
+  
+  .detalle-cotizacion-columna p {
+    flex: 1 0 100%;
+    margin: 0 1%;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+  }
+  
+  .es-contactado {
+    text-align: center;
+    background-color: green;
+  }
+  
+  .no-contactado {
+    text-align: center;
+    background-color: red;
+  }
+  
+  /* Estilos CSS para el botón */
+  .contactar-button {
+    padding: 10px;
+    background-color: #0099ff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  /* Estilos para el spinner de carga */
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  .loading-spinner {
+    border: 8px solid #f3f3f3;
+    border-top: 8px solid #0099ff;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 20% auto;
+  }
+  

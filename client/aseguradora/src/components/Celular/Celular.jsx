@@ -3,9 +3,15 @@ import InputGlobal from "../InputGlobal/InputGlobal";
 import Button from "../Button/Button";
 import ButtonVolver from "../BottonVolver/BottonVolver";
 import { Link, Outlet, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 function Celular() {
   const navigate = useNavigate();
+     /* Alerttaaaaaa */
+     const MySwal = withReactContent(Swal);
+     /* ----------------- */
+  
 
 
   const [datosObjeto, setDatosObjeto] = useState({
@@ -14,8 +20,17 @@ function Celular() {
     Modelo: "",
     Año: "",
     Memoria: "",
-    Valor_Actual: "",
+    valor: "",
     Estado_Celular: "",
+  });
+
+  const [camposCompletos, setCamposCompletos] = useState({
+    Marca: false,
+    Modelo: false,
+    Año: false,
+    Memoria: false,
+    valor: false,
+    Estado_Celular: false,
   });
   
 
@@ -23,10 +38,24 @@ function Celular() {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setDatosObjeto({ ...datosObjeto, [name]: value });
+    setCamposCompletos({ ...camposCompletos, [name]: Boolean(value) });
 
   };
 
   const handleContinuarClick = () => {
+    const camposIncompletos = Object.keys(camposCompletos).filter(
+      (campo) => !camposCompletos[campo]
+    );
+
+    if (camposIncompletos.length > 0) {
+      Swal.fire({
+        icon: "error",
+        title: "Campos Incompletos!",
+        text: "Verificar campos incompletos...",
+      });
+      return;
+    }
+
     navigate("/datos-personales", { state: { datosObjeto } });
   };
 
@@ -73,8 +102,8 @@ function Celular() {
           titulo="Valor Actualizado"
           required
           placeholder=""
-          name="Valor_Actual"
-          value={datosObjeto.Valor_Actual}
+          name="valor"
+          value={datosObjeto.valor}
           onChange={handleInputChange}
         ></InputGlobal>
         <div className="form__group field">
@@ -82,16 +111,14 @@ function Celular() {
             Estado del Celular
           </label>
           <select
-            className="select"
+            id="select"
             name="Estado_Celular"
             value={datosObjeto.Estado_Celular}
             onChange={handleInputChange}
           >
-            <option selected disabled>
-              Estado
-            </option>
+            
             <option value="" disabled selected>
-              Forma de Pago
+              Estado
             </option>
             <option value="Malo">Malo</option>
             <option value="Intermedio">Intermedio</option>

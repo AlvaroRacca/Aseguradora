@@ -1,0 +1,67 @@
+.login-container {
+  max-width: 400px;
+  margin: 10% auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.login-container h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-form div {
+  margin-bottom: 15px;
+}
+
+.login-form label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.login-form input {
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.login-form button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 12px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.login-form button:hover {
+  background-color: #0056b3;
+}
+
+.error-message {
+  color: #ff0000;
+  margin-top: 10px;
+}
+
+/* Estilos para hacerlo responsive */
+@media (max-width: 600px) {
+  .login-container {
+    max-width: 100%;
+  }
+
+  .login-form button {
+    width: 100%;
+  }
+}

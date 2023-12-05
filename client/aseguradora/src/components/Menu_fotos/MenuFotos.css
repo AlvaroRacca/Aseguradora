@@ -1,0 +1,6 @@
+/* Agrega estilos para botones deshabilitados */
+.button-disabled {
+    background-color: #ccc; /* Color de fondo gris para indicar deshabilitado */
+    color: #888; /* Color de texto gris para indicar deshabilitado */
+    cursor: not-allowed; /* Cambia el cursor a "no permitido" para indicar deshabilitado */
+  }

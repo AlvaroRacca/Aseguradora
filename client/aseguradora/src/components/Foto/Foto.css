@@ -1,0 +1,27 @@
+/* Foto.css */
+.foto-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-top: 5%;
+  }
+  
+  .capture-button, .save-button, .retry-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    margin: 10px;
+    cursor: pointer;
+  }
+  
+  .captured-image {
+    margin-top: 5px;
+    max-width: 100%;
+    border: 1px solid #ccc;
+  }
+  
+  .button-container {
+    display: flex;
+    justify-content: center;
+  }
+  

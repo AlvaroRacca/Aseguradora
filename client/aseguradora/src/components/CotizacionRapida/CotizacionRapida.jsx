@@ -12,7 +12,7 @@ function CotizacionRapida() {
 
   return (
     <div className="App">
-      <h1 className="seleccion-objeto-h1">Seleccionar Objeto a Asegurar</h1>
+      <h1 className="seleccion-objeto-h1">Seleccionar Objeto Presupuestar</h1>
       <Link to="/cotizacion-rapida-auto">
         <Button titulo="AUTO"></Button>
       </Link>
@@ -22,7 +22,7 @@ function CotizacionRapida() {
       <Link to="/cotizacion-rapida-bici">
         <Button titulo="BICICLETA"></Button>
       </Link>
-      <Link to="/cotizacion-rapida-celu">
+      <Link to="/cotizacion-rapida-celular">
         <Button titulo="CELULAR"></Button>
       </Link>
       <ButtonVolver onClick={goBack} titulo="Volver"></ButtonVolver>
