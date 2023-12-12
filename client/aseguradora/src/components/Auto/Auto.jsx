@@ -111,6 +111,7 @@ function Auto() {
           name="Año"
           titulo="Año"
           required
+          type="number"
           placeholder=""
           value={datosObjeto.Año}
           onChange={handleInputChange}

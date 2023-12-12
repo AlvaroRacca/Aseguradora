@@ -11,3 +11,14 @@
   background-color: red;
   border: red  1px;
 }
+
+/* Media Query para pantallas más pequeñas (ej. smartphones) */
+@media (max-width: 600px) {
+  #select {
+    /* Agrega estilos adicionales para pantallas pequeñas */
+    font-size: 14px; /* Reduzca el tamaño de la fuente */
+    padding: 8px; /* Ajusta el relleno */
+  }
+}
+
+

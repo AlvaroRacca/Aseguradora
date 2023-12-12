@@ -2,7 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./Detalle_Informe.css";
-import Button from "../Button/Button";
+import ButtonPropio from "../Button/Button";
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
 import ButtonVolver from "../BottonVolver/BottonVolver";
 
 import Swal from "sweetalert2";
@@ -12,6 +15,9 @@ function DetalleInforme() {
   const { id, tipoObjeto } = useParams();
   const [informe, setInforme] = useState(null);
   const [polizaVigente, setPolizaVigente] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [fechaVencimiento, setFechaVencimiento] = useState("");
+  const [debitoAutomatico, setDebitoAutomatico] = useState(false);
   const [fotos, setFotos] = useState([]);
   const navigate = useNavigate();
 
@@ -34,11 +40,15 @@ function DetalleInforme() {
     fetchInforme();
   }, [id]);
 
-  const handleInformarPago = async () => {
+  const handleGuardar = async () => {
     try {
-      // Realizar la solicitud para informar el pago al servidor
+      if (debitoAutomatico) {
+        setFechaVencimiento("00-00-0000");
+      }
+
       const response = await axios.post(
-        `http://192.168.56.1:3001/crear-poliza/${id}`
+        `http://192.168.56.1:3001/crear-poliza/${id}`,
+        { fechaVencimiento }
       );
 
       // Verificar si la solicitud fue exitosa
@@ -85,6 +95,14 @@ function DetalleInforme() {
 
   const goBack = () => {
     navigate(-1); // Utiliza navigate con un valor negativo para retroceder
+  };
+
+  const handleInformarPago = () => {
+    setShowModal(true);
+  };
+
+  const handleModalClose = () => {
+    setShowModal(false);
   };
 
   const Imagen = ({ src }) => (
@@ -156,27 +174,62 @@ function DetalleInforme() {
         <p>Seguro a Adquirir : {informe.seguros}</p>
       </div>
       <div>
-      <h1 className="h1-titulo-detalle">Galeria de Fotos</h1>
-          <div className="fotos-container">
-            {Object.keys(informe).map((key) => {
-              if (
-                informe[key] &&
-                typeof informe[key] === "string" &&
-                informe[key].startsWith("data:image/jpeg;base64,")
-              ) {
-                return <Imagen key={key} src={informe[key]} />;
-              }
-              return null;
-            })}
-          </div>
+        <h1 className="h1-titulo-detalle">Galeria de Fotos</h1>
+        <div className="fotos-container">
+          {Object.keys(informe).map((key) => {
+            if (
+              informe[key] &&
+              typeof informe[key] === "string" &&
+              informe[key].startsWith("data:image/jpeg;base64,")
+            ) {
+              return <Imagen key={key} src={informe[key]} />;
+            }
+            return null;
+          })}
         </div>
+      </div>
       <h1 className={claseDeEstilo}>{estadosPoliza[polizaVigente]} </h1>
       {estadosPoliza[polizaVigente] !== "Con Poliza Activa" && (
         <>
-          <Button titulo="Crear Poliza" onClick={handleInformarPago}></Button>
+           <ButtonPropio titulo="Crear Póliza" onClick={() => setShowModal(true)} />
         </>
       )}
       <ButtonVolver onClick={goBack} titulo="Volver"></ButtonVolver>
+      <Modal
+        show={showModal}
+        onHide={handleModalClose}
+        centered // Center the modal vertically
+      >
+       <Modal.Body>
+          <Form>
+            <Form.Group controlId="formFechaVencimiento">
+              <Form.Label>Fecha de Vencimiento: </Form.Label>
+              <Form.Control
+                type="date"
+                value={fechaVencimiento}
+                onChange={(e) => setFechaVencimiento(e.target.value)}
+                disabled={debitoAutomatico}
+              />
+            </Form.Group>
+            <Form.Group controlId="formDebitoAutomatico">
+              <Form.Check
+                type="checkbox"
+                label="Débito Automático"
+                checked={debitoAutomatico}
+                onChange={(e) => setDebitoAutomatico(e.target.checked)}
+              />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button  className="poliza-button"  variant="secondary" onClick={handleModalClose}>
+            Cancelar
+          </Button>
+          <Button  className="poliza-button" variant="primary" onClick={handleGuardar}>
+            Guardar
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }

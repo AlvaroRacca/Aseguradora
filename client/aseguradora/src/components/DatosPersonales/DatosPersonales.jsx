@@ -156,6 +156,19 @@ function DatosPersonales({ userData }) {
     navigate(-1); // Utiliza navigate con un valor negativo para retroceder
   };
 
+let elementosTransferencia = [<p><strong>Datos Para Transferencia</strong></p>, <p>Alias: pepi.turri18</p>,<p>CUIL: 20-38896488-0</p>,<p>Enviar Comprobante: pepiturri18@gmail.com</p>];
+let elementosTarjetaEfectivo = [<strong><p>Esta formas de pago, se hara de forma presencial!!</p></strong>, <strong><p>Contactarse con su productor!!</p></strong>];
+
+
+let elementosMostrar = [];
+if (datosPersonales.Forma_Pago === "Transferencia") {
+  elementosMostrar = elementosTransferencia;
+} else if( datosPersonales.Forma_Pago === "Tarjeta" || datosPersonales.Forma_Pago === "Efectivo" || datosPersonales.Forma_Pago === "Debito") {
+  elementosMostrar = elementosTarjetaEfectivo;
+}
+
+
+
   return (
     <div className="App">
       <h1 className="datos-personales-h1">Datos Personales</h1>
@@ -278,7 +291,11 @@ function DatosPersonales({ userData }) {
             <option value="Transferencia">Transferencia</option>
             <option value="Tarjeta">Tarjeta</option>
             <option value="Efectivo">Efectivo</option>
+            <option value="Debito">Debito Automatico</option>
           </select>
+          {elementosMostrar.map((elemento, index) => (
+            <div key={index} className="div-mensaje-pago">{elemento}</div>
+          ))}
         </div>
       </form>
       <div className="div_bt-opciones">

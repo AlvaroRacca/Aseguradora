@@ -8,12 +8,24 @@
 
 .detalle-informe-columns {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(1, 1fr);
   gap: 15px;
 }
 
+@media (min-width: 390px) {
+  .detalle-informe-columns {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+@media (min-width: 600px) {
+  .detalle-informe-columns {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 .detalle-informe-columns p {
-  flex: 1 0 48%;
+  flex: 1 0 100%;
   margin: 0 1%;
   padding: 5px;
   border: 1px solid #ddd;
@@ -22,7 +34,7 @@
 }
 
 .detalle-informe-columns h2 {
-  color: #333; /* Color del texto para los títulos */
+  color: #333;
   margin-bottom: 10px;
 }
 
@@ -30,29 +42,21 @@
   border: none;
   font-size: 17px;
   border-radius: 5px;
-  background-color: #f9f9f9; /* Utiliza el mismo fondo que los párrafos */
+  background-color: #f9f9f9;
+  width: 100%; /* Ajusta el ancho al 100% */
 }
 
 .detalle-informe-columns p.is-empty {
   background-color: rgba(255, 0, 0, 0.534);
 }
 
-.detalle-informe-columns input.is-empty{
+.detalle-informe-columns input.is-empty {
   margin: 0 10px;
   background-color: rgba(255, 174, 174, 0.459);
 }
 
-.bt-agregar-meses{
-  border: none;
-  padding: 5px 5px;
-  background-color: white;
-  border-radius: 5px;
-}
-
-
-
 .detalle-informe-columns p.fecha-vencida {
-  background-color: rgba(255, 0, 0, 0.534); /* Cambia el color a rojo si la fecha está vencida */
+  background-color: rgba(255, 0, 0, 0.534);
 }
 
 @keyframes spin {
@@ -68,4 +72,13 @@
   height: 40px;
   animation: spin 1s linear infinite;
   margin: 20% auto;
+}
+
+.bt-dar-de-baja {
+  padding: 5px 5px;
+  margin: 10px 0;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  background-color: rgba(255, 0, 0, 0.534);
 }

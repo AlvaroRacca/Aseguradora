@@ -7,23 +7,21 @@ import Swal from "sweetalert2";
 import ButtonVolver from "../BottonVolver/BottonVolver";
 import withReactContent from "sweetalert2-react-content";
 
-
-function DetalleCotizacion() {
+function DetalleCotizacion({ userData, setUserData, setIsAuthenticated }) {
   const [cotizacion, setCotizacion] = useState(null);
+  const [nivelUsuario, setNivelUsuario] = useState(null);
   const [esCotactadoEstado, setEsCotactadoEstado] = useState("");
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
   const navigate = useNavigate();
-  
+
   /* Alerttaaaaaa */
   const MySwal = withReactContent(Swal);
   /* ----------------- */
 
-  
   const goBack = () => {
     navigate(-1); // Utiliza navigate con un valor negativo para retroceder
   };
-
 
   useEffect(() => {
     const fetchCotizacion = async () => {
@@ -33,6 +31,8 @@ function DetalleCotizacion() {
         );
         setCotizacion(response.data[0]);
         setEsCotactadoEstado(response.data[0].Estado);
+
+        setUserData.nivel = 1;
       } catch (error) {
         console.error("Error al obtener la cotización:", error);
       } finally {
@@ -49,7 +49,7 @@ function DetalleCotizacion() {
       const response = await axios.post(
         `http://192.168.56.1:3001/actualizar-estado-cotizacion/${id}`
       );
-  
+
       // Verificar si la solicitud fue exitosa
       if (response.status === 200) {
         Swal.fire({
@@ -72,7 +72,15 @@ function DetalleCotizacion() {
       console.error("Error al actualizar el estado de la cotización:", error);
     }
   };
-  
+
+  const formatearFecha = (fecha) => {
+    if (!fecha) {
+      return ""; // Si la fecha no está presente, devuelve una cadena vacía
+    }
+
+    const options = { year: "numeric", month: "2-digit", day: "2-digit" };
+    return new Date(fecha).toLocaleDateString(undefined, options);
+  };
 
   const estadoCotizacion = {
     A: "No Contactado",
@@ -109,7 +117,11 @@ function DetalleCotizacion() {
             )}
           </div>
           <h1 className={claseDeEstilo}>
-            {" Cliente  "+ estadoCotizacion[esCotactadoEstado]}{" "}
+            {" Cliente " +
+              estadoCotizacion[esCotactadoEstado] +
+              (cotizacion.fecha_contactada !== null
+                ? " el " + formatearFecha(cotizacion.fecha_contactada)
+                : "")}
           </h1>
           {estadoCotizacion[esCotactadoEstado] !== "Contactado" && (
             <Button

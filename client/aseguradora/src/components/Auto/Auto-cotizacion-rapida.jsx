@@ -124,7 +124,7 @@ function AutoCotizacionRapida() {
           <label htmlFor="name" className="form__label">
             Seguro a Cotizar
           </label>
-          <select id="select" name="Seguros" required
+          <select id="select" name="Seguro" required
             value={datosObjeto.Seguro}
             onChange={handleInputChange}>
             <option selected disabled>

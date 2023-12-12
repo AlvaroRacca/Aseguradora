@@ -14,6 +14,7 @@ export const PhotoProvider = ({ children }) => {
   const [capturedImages, setCapturedImages] = useState([]);
   const [datosObjeto, setDatosObjeto] = useState({});
   const [datosPersonales, setDatosPersonalesGlobal] = useState({});
+  const [datosUsuario, setDatosUsuario] = useState({});
 
   const [tipoObjeto, setTipoObjeto] = useState(null); 
   const [GNC, setGNC] = useState(null);// Agregar estado para el tipo de objeto
@@ -45,6 +46,8 @@ export const PhotoProvider = ({ children }) => {
     setTipoObjeto,
     GNC,
     setGNC,
+    datosUsuario,
+    setDatosUsuario
   };
 
   return (

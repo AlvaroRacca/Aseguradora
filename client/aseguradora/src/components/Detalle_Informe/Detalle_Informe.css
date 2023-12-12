@@ -67,3 +67,58 @@
   animation: spin 1s linear infinite;
   margin: 20% auto;
 }
+
+/* Add this CSS to your component or style file */
+
+/* Style for the modal */
+.modal-content {
+  background-color: white;
+  padding: 50px;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+}
+
+/* Style to center the modal vertically */
+.modal {
+  position: absolute;
+  top: 40%;
+  left: 35%;
+  margin: 0 auto;
+}
+
+
+.modal-header {
+  background-color: #007bff; /* Header background color, change as needed */
+  color: white; /* Header text color, change as needed */
+  border-bottom: none;
+  border-radius: 8px 8px 0 0; 
+}
+
+/* Style for the modal title */
+.modal-title {
+  margin: 0; /* Remove default margin */
+}
+
+/* Style for the modal body */
+.modal-body {
+  padding: 20px; /* Adjust padding as needed */
+}
+
+.modal-footer {
+  border-top: none; 
+  border-radius: 0 0 8px 8px;
+  justify-content: center;
+  text-align: center;
+  
+}
+
+.poliza-button {
+  margin: 0px 20px; /* Adjust margin as needed */
+}
+
+.modal-backdrop {
+  background-color: rgba(0, 0, 0, 0.5); 
+}
+
+

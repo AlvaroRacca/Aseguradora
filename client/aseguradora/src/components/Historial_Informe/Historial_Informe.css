@@ -1,48 +1,50 @@
+/* Estilos generales */
 .historial-container {
-    max-width: 90%;
-    margin: auto;
-  }
-  
-  .informe-list {
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .informe-item {
-    border: 1px solid #ddd;
-    margin: 10px auto;
-    padding: 10px;
-    border-radius: 5px;
-    width: 90%;
-    display: flex;
-    justify-content: space-between;
-    background-color: #f9f9f9;
-  }
-
-
-  /* styles.css */
-
-.form-container {
-    width: 10%;
-    margin-bottom: 20px;
-  }
-  
-  .form-select {
-    border: none;
-    border-radius: 10px;
-    margin: 0 10px;
-    padding: 8px;
-    font-size: 16px;
-    background-color: #f9f9f9;
-    outline: none;
-  }
-
-.form-inputs{
-  display: flex;
-  justify-content: space-around;
+  max-width: 90%;
+  margin: auto;
 }
 
+/* Estilos para la lista de informes */
+.informe-list {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Estilos para cada elemento de la lista de informes */
+.informe-item {
+  border: 1px solid #ddd;
+  margin: 10px auto;
+  padding: 10px;
+  border-radius: 5px;
+  width: 90%;
+  display: flex;
+  justify-content: space-between;/* Cambiado de 'justify-content: space-between;' a 'flex-direction: column;' para mejor apilamiento en pantallas pequeñas */
+  background-color: #f9f9f9;
+}
+
+/* Estilos del formulario */
+.form-container {
+  width: 100%; /* Ajustado el ancho al 100% */
+  margin-bottom: 20px;
+}
+
+.form-select {
+  border: none;
+  border-radius: 10px;
+  margin: 0 0 10px 0; /* Alineado el margen inferior para mayor consistencia */
+  padding: 8px;
+  font-size: 16px;
+  background-color: #f9f9f9;
+  outline: none;
+}
+
+.form-inputs {
+  display: flex;
+  flex-direction: column; /* Cambiado de 'justify-content: space-around;' a 'flex-direction: column;' para mejor apilamiento en pantallas pequeñas */
+}
+
+/* Animación de carga */
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
@@ -55,7 +57,15 @@
   width: 40px;
   height: 40px;
   animation: spin 1s linear infinite;
-  margin: 20% auto;
+  margin: 10% auto; /* Reducido el margen para una apariencia más centrada */
+}
+
+/* Media Query para pantallas más pequeñas (ej. smartphones) */
+@media (max-width: 600px) {
+  .informe-item,
+  .form-container {
+    width: 100%; /* Ajustado el ancho al 100% en pantallas pequeñas */
+  }
 }
 
 

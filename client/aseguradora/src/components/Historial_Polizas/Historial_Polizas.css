@@ -10,8 +10,8 @@
     display: flex;
     flex-direction: column;
   }
-  
-  /* Estilos para cada elemento de la lista de pólizas */
+
+
   .poliza-item {
     border: 1px solid #ddd;
     margin: 10px auto;

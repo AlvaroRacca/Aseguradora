@@ -7,17 +7,19 @@ import ButtonVolver from "../BottonVolver/BottonVolver";
 function HistorialCotizaciones() {
   const [cotizaciones, setCotizaciones] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [filtro, setFiltro] = useState("todos"); 
+  const [filtro, setFiltro] = useState("todos");
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCotizaciones = async () => {
       try {
-        const response = await axios.get("http://192.168.56.1:3001/mostrar-cotizaciones");
+        const response = await axios.get(
+          "http://192.168.56.1:3001/mostrar-cotizaciones"
+        );
         setCotizaciones(response.data);
       } catch (error) {
         console.error("Error al obtener las cotizaciones:", error);
-      }finally {
+      } finally {
         // Después de obtener los datos, actualiza el estado de carga
         setLoading(false);
       }
@@ -47,7 +49,15 @@ function HistorialCotizaciones() {
     }
   });
 
-  
+  const formatearFecha = (fecha) => {
+    if (!fecha) {
+      return ""; // Si la fecha no está presente, devuelve una cadena vacía
+    }
+
+    const options = { year: "numeric", month: "2-digit", day: "2-digit" };
+    return new Date(fecha).toLocaleDateString(undefined, options);
+  };
+
   const goBack = () => {
     navigate(-1); // Utiliza navigate con un valor negativo para retroceder
   };
@@ -76,15 +86,26 @@ function HistorialCotizaciones() {
       ) : (
         <div className="cotizacion-list">
           {cotizacionesFiltradas.map((cotizacion) => (
-            <div key={cotizacion.id} onClick={() => navigateDetalleCotizacion(cotizacion.id)} className={`cotizacion-item ${cotizacion.Estado === 'C' ? 'contactado' : ''}`}>
+            <div
+              key={cotizacion.id}
+              onClick={() => navigateDetalleCotizacion(cotizacion.id)}
+              className={`cotizacion-item ${
+                cotizacion.Estado === "C" ? "contactado" : ""
+              }`}
+            >
               <p>
-                <strong>Tipo de Objeto a Asegurar:</strong> {cotizacion.Tipo_objeto}
+                <strong>Tipo de Objeto a Asegurar:</strong>{" "}
+                {cotizacion.Tipo_objeto}
               </p>
               <p>
                 <strong>Nombre:</strong> {cotizacion.Nombre}
               </p>
               <p>
-                <strong>Estado:</strong> {estadoCotizacion[cotizacion.Estado]}
+                <strong>Estado:</strong>{" "}
+                {estadoCotizacion[cotizacion.Estado] +
+                  (cotizacion.fecha_contactada !== null
+                    ? " el " + formatearFecha(cotizacion.fecha_contactada)
+                    : "")}
               </p>
             </div>
           ))}

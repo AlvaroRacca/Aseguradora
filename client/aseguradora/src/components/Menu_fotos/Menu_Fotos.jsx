@@ -2,9 +2,7 @@ import React, { useState, useEffect } from "react";
 import Button from "../Button/Button";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Axios from "axios";
-import Galeria from "../Galeria/Galeria";
 import { usePhotoContext } from "../Foto/PhotoContext";
-import Foto from "../Foto/Foto";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
@@ -13,8 +11,10 @@ function MenuFotos({ userData }) {
   const MySwal = withReactContent(Swal);
   /* ----------------- */
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const { capturedImages } = usePhotoContext();
+  const { datosUsuario } = usePhotoContext();
   const { tipoObjeto, GNC, datosObjeto } = usePhotoContext();
   const { datosPersonalesGlobal } = usePhotoContext();
   const [datosObjetoLocal, setDatosObjetoLocal] = useState(null);
@@ -52,23 +52,9 @@ function MenuFotos({ userData }) {
     console.log("datosPersonales", datosPersonalesLocalState);
   };
 
-  // Función para generar nombres únicos
-  const generarNombreUnico = () => {
-    const caracteres =
-      "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    const longitud = 10; // Puedes ajustar la longitud del nombre único según tus necesidades
-    let nombreUnico = "";
-
-    for (let i = 0; i < longitud; i++) {
-      const indiceCaracter = Math.floor(Math.random() * caracteres.length);
-      nombreUnico += caracteres.charAt(indiceCaracter);
-    }
-
-    return nombreUnico;
-  };
-
   const handlerSubirDatos = async () => {
     try {
+      setLoading(true);
       const responseDatosPersonales = await Axios.post(
         "http://192.168.56.1:3001/datos-personales",
         {
@@ -119,16 +105,19 @@ function MenuFotos({ userData }) {
           );
 
           if (responseInforme) {
-            
             if (responseInforme) {
-              
+              if (datosUsuario.nivel == 5) {
+                navigate("/");
+              } else {
+                navigate("/admin");
+              }
               Swal.fire({
                 icon: "success",
                 title: "Proceso completado exitosamente",
                 showConfirmButton: false,
                 timer: 1500,
               });
-              if (userData && userData.nivel_acceso === 1) {
+              if (userData.nivel_acceso === 1) {
                 navigate("/admin");
               } else {
                 navigate("/");
@@ -164,12 +153,21 @@ function MenuFotos({ userData }) {
     } catch (error) {
       console.error(error);
       alert("Hubo un error. Mira la consola para obtener más detalles.");
+    }finally {
+      // Después de obtener los datos, actualiza el estado de carga
+      setLoading(false);
     }
   };
 
   return (
     <div>
       <div className="div-bt-inicio" style={{ marginTop: "0%" }}>
+      {loading ? (
+        <div className="detalle-informe-container loading-spinner-container">
+        <div className="loading-spinner"></div>
+      </div>
+      ) : (
+      <>
         <Link to="/adjuntar-foto">
           <Button titulo="Foto Frontal"></Button>
         </Link>
@@ -214,6 +212,7 @@ function MenuFotos({ userData }) {
         )}
         {/* {capturedImages && <Galeria fotos={capturedImages} />} */}
         <Button titulo="Finalizar" onClick={handlerSubirDatos}></Button>
+        </>)};
       </div>
     </div>
   );

@@ -78,6 +78,7 @@ app.post("/iniciar-sesion", async (req, res) => {
     let userData = {
       id: user.id_usuario,
       username: user.nombre,
+      nivel:user.nivel_acceso,
       // Agrega otros datos del usuario que desees incluir aquí
     };
 
@@ -194,7 +195,7 @@ app.post('/actualizar-estado-cotizacion/:id', async (req, res) => {
   const { id } = req.params;
 
   try {
-    await db.query('UPDATE cotizaciones SET estado = "C" WHERE id = ?', [id]);
+    await db.query('UPDATE cotizaciones SET estado = "C", fecha_contactada = CURRENT_DATE  WHERE id = ?', [id]);
 
     // Devuelve una respuesta exitosa
     res.status(200).json({ message: 'Pago informado exitosamente' });
@@ -463,10 +464,11 @@ app.get("/detalle-poliza/:id", async (req, res) => {
 /* -------------------------------------------GENERAR POLIZA ACTIVA------------------------------------------- */
 app.post('/crear-poliza/:id', async (req, res) => {
   const { id } = req.params;
+  const { fechaVencimiento } = req.body; 
 
   try {
     // Actualiza el estado de la póliza asociada al informe con el ID proporcionado
-    await db.query('INSERT INTO poliza (id_informe, estado, vencimiento) VALUE (? ,"A", DATE_ADD(CURDATE(), INTERVAL 1 MONTH))', [id]);
+    await db.query('INSERT INTO poliza (id_informe, estado, vencimiento) VALUE (? ,"A", ?)', [id, fechaVencimiento]);
     await db.query('UPDATE informe SET estado = "P" WHERE id_informe = ?', [id]);
 
     // Devuelve una respuesta exitosa
@@ -476,6 +478,23 @@ app.post('/crear-poliza/:id', async (req, res) => {
     res.status(500).json({ error: 'Error en el servidor' });
   }
 });
+/* -------------------------------------------DAR DE BAJA POLIZA ACTIVA------------------------------------------- */
+app.post('/dar-de-baja-poliza/:idPoliza', async (req, res) => {
+  const { idPoliza } = req.params;
+
+
+  try {
+    // Actualiza el estado de la póliza asociada al informe con el ID proporcionado
+    await db.query('UPDATE poliza SET estado = "V" , vencimiento = CURRENT_DATE  WHERE id_poliza = ?', [idPoliza]);
+
+    // Devuelve una respuesta exitosa
+    res.status(200).json({ message: 'Pago informado exitosamente' });
+  } catch (error) {
+    console.error('Error al informar el pago:', error);
+    res.status(500).json({ error: 'Error en el servidor' });
+  }
+});
+
 
 /* -------------------------------------------ACTUALIZAR POLIZA------------------------------------------- */
 app.post('/actualizar-poliza/:id', async (req, res) => {
@@ -551,6 +570,5 @@ function guardarEnInforme(idUsuario, idDatosPersonales, tipoObjeto) {
 
 
 app.listen(3001, () => {
-  console.log("Corriendo Node.js en el puerto 3001");
+  console.log(`Servidor escuchando en 3001`);
 });
-

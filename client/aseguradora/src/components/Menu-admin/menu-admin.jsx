@@ -7,16 +7,19 @@ function MenuAdmin({ isAuthenticated, userData, setUserData, setIsAuthenticated 
   const navigate = useNavigate();
 
 
-  const handleLogout = () => {
-    // Enviar una solicitud para cerrar sesión en el servidor
-    axios.get("http://192.168.56.1:3001/cerrar-sesion").then((response) => {
-      // Limpia el almacenamiento local
+  const handleLogout = async () => {
+    try {
+      await axios.get("http://192.168.56.1:3001/cerrar-sesion");
+      localStorage.removeItem("isLoggedIn");
       localStorage.removeItem("username");
       localStorage.removeItem("userId");
-      setUserData({ username: "", userId: null });
-      setIsAuthenticated(true);
+      setIsAuthenticated(false);
+      setUserData({});
+      setUserData({nivel:"0"});
       navigate("/");
-    });
+    } catch (error) {
+      console.error("Error al cerrar sesión:", error);
+    }
   };
 
   return (
