@@ -59,7 +59,7 @@ function CelularCotizacionRapida() {
   
     try {
       // Realizar la inserción en la base de datos
-      const response = await Axios.post("http://192.168.56.1:3001/crear-cotizacion", datosObjeto);
+      const response = await Axios.post("http://192.168.100.106:3001/crear-cotizacion", datosObjeto);
   
       // Verificar el estado de la respuesta del servidor
       if (response.status === 200) {

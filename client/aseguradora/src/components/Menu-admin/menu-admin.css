@@ -2,15 +2,22 @@
     text-transform: uppercase;
     display: flex;
     position: absolute;
-    top: -50px;
-    margin: 0px 50px;
+    top: -90px;
+    margin: 0px 30px;
     font-size: x-large;
     font-weight: bold;
 }
 
 .div-bt-inicio{
     position: fixed;
-    top: 25%;
+    top: 35%;
     left: 0;
     right: 0;
+}
+
+@media (max-width: 600px) {
+    .p-bienvenida{
+        top: -60px;
+        text-align: center;
+    }
 }

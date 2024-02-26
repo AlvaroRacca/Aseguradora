@@ -3,9 +3,16 @@ import axios from "axios";
 import "./Historial_Polizas.css";
 import ButtonVolver from "../BottonVolver/BottonVolver";
 import { useNavigate } from "react-router-dom";
+import Button from "react-bootstrap/esm/Button";
+import ButtonMio from "../Button/Button";
+import emailjs from "emailjs-com";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 function Historial_Polizas({ isAuthenticated, handlePolizaClick }) {
   const [polizas, setPolizas] = useState([]);
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [filteredPolizas, setFilteredPolizas] = useState([]); // Nuevo estado para las polizas filtradas
@@ -19,7 +26,7 @@ function Historial_Polizas({ isAuthenticated, handlePolizaClick }) {
   useEffect(() => {
     const fetchPolizas = async () => {
       try {
-        const response = await axios.get("http://192.168.56.1:3001/polizas");
+        const response = await axios.get("http://192.168.100.106:3001/polizas");
         setPolizas(response.data);
         setFilteredPolizas(response.data);
       } catch (error) {
@@ -34,38 +41,110 @@ function Historial_Polizas({ isAuthenticated, handlePolizaClick }) {
   }, []);
 
   const filterPolizas = () => {
-    console.log("companiaFilter:", companiaFilter);
-    console.log("venceFilter:", venceFilter);
-  
-    // Lógica de filtrado...
     let filtered = polizas;
-  
+
     if (companiaFilter) {
-      filtered = filtered.filter((poliza) =>
-        poliza.aseguradora && poliza.aseguradora.toLowerCase().includes(companiaFilter.toLowerCase())
+      filtered = filtered.filter(
+        (poliza) =>
+          poliza.aseguradora &&
+          poliza.aseguradora
+            .toLowerCase()
+            .includes(companiaFilter.toLowerCase())
       );
     }
-  
+
     if (venceFilter === "debito") {
-      filtered = filtered.filter((poliza) => poliza.vencimiento === "0000-00-00");
+      filtered = filtered.filter(
+        (poliza) => poliza.vencimiento === "0000-00-00"
+      );
     } else if (venceFilter === "vencidas") {
       filtered = filtered.filter(
         (poliza) => new Date(poliza.vencimiento) < new Date()
       );
     } else if (venceFilter === "proximas") {
-      const oneMonthLater = new Date();
-      oneMonthLater.setMonth(oneMonthLater.getMonth() + 1);
+      const today = new Date();
+      const twentyDaysLater = new Date();
+      twentyDaysLater.setDate(today.getDate() + 20);
+
       filtered = filtered.filter(
         (poliza) =>
-          new Date(poliza.vencimiento) > new Date() &&
-          new Date(poliza.vencimiento) <= oneMonthLater
+          new Date(poliza.vencimiento) > today &&
+          new Date(poliza.vencimiento) <= twentyDaysLater
       );
     }
 
-  
     setFilteredPolizas(filtered);
   };
-  
+
+  const sendEmail = async (email, tipoPoliza, nombre, apellido) => {
+    try {
+      const templateParams = {
+        reply_to: email,
+        to_name: `${nombre} ${apellido}`,
+        tipo_poliza: tipoPoliza === "proximas" ? "próxima a vencer" : "vencida",
+      };
+
+      const response = await emailjs.send(
+        "service_d34vbzj",
+        "template_9naf3ey",
+        templateParams,
+        "GqiLnt_6n0K5XTiRs"
+      );
+
+      if (response.status === 200) {
+        Swal.fire({
+          icon: "success",
+          title: "Emails enviados exitosamente",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Hubo un error al enviar emails",
+        });
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Hubo un error al enviar emails",
+      });
+    }
+  };
+
+  const sendEmails = async (tipo) => {
+    let polizasEnviar;
+
+    if (tipo === "proximas") {
+      const today = new Date();
+      const twentyDaysLater = new Date();
+      twentyDaysLater.setDate(today.getDate() + 20);
+
+      polizasEnviar = filteredPolizas.filter(
+        (poliza) =>
+          new Date(poliza.vencimiento) > today &&
+          new Date(poliza.vencimiento) <= twentyDaysLater
+      );
+    } else if (tipo === "vencidas") {
+      polizasEnviar = filteredPolizas.filter(
+        (poliza) => new Date(poliza.vencimiento) < new Date()
+      );
+    }
+
+    for (const poliza of polizasEnviar) {
+      try {
+        await sendEmail(poliza.email, tipo, poliza.nombre, poliza.apellido);
+      } catch (error) {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Hubo un error al enviar emails",
+        });
+      }
+    }
+  };
 
   useEffect(() => {
     filterPolizas();
@@ -310,7 +389,7 @@ function Historial_Polizas({ isAuthenticated, handlePolizaClick }) {
     <div className="poliza-container">
       <h1 className="h1-poliza">Lista de Pólizas</h1>
       <div className="filtro-container">
-        <label>
+        <label className="lable-filtros">
           Compañía:
           <select
             className="form-select"
@@ -326,7 +405,7 @@ function Historial_Polizas({ isAuthenticated, handlePolizaClick }) {
           </select>
         </label>
 
-        <label>
+        <label className="lable-filtros">
           Vencimiento:
           <select
             className="form-select"
@@ -362,7 +441,8 @@ function Historial_Polizas({ isAuthenticated, handlePolizaClick }) {
                   <strong>N° de Póliza Oficial:</strong> {poliza.numero_oficial}
                 </p>
                 <p>
-                  <strong>Nombre y Apellido:</strong> {poliza.nombre} {poliza.apellido}
+                  <strong>Nombre y Apellido:</strong> {poliza.nombre}{" "}
+                  {poliza.apellido}
                 </p>
                 <p>
                   <strong>Vence:</strong> {fechaVencimiento}
@@ -372,6 +452,21 @@ function Historial_Polizas({ isAuthenticated, handlePolizaClick }) {
           })}
         </div>
       )}
+      <div className="bt-email">
+        <button
+          className="bt-email-button"
+          onClick={() => sendEmails("vencidas")}
+        >
+          Notificar Pólizas Vencidas
+        </button>
+        <button
+          className="bt-email-button"
+          onClick={() => sendEmails("proximas")}
+        >
+          Notificar Pólizas Próximas a Vencimiento
+        </button>
+      </div>
+
       <ButtonVolver onClick={goBack} titulo="Volver"></ButtonVolver>
     </div>
   );

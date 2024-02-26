@@ -9,7 +9,8 @@ function MenuAdmin({ isAuthenticated, userData, setUserData, setIsAuthenticated 
 
   const handleLogout = async () => {
     try {
-      await axios.get("http://192.168.56.1:3001/cerrar-sesion");
+      /* ip alvaro: 192.168.100.106 */
+      await axios.get("http://192.168.100.106:3001/cerrar-sesion");
       localStorage.removeItem("isLoggedIn");
       localStorage.removeItem("username");
       localStorage.removeItem("userId");

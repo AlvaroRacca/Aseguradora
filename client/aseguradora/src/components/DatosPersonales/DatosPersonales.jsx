@@ -58,7 +58,7 @@ function DatosPersonales({ userData }) {
   const handlerSubirDatos = async () => {
     try {
       const responseDatosPersonales = await Axios.post(
-        "http://192.168.56.1:3001/datos-personales",
+        "http://192.168.100.106:3001/datos-personales",
         {
           datosPersonales,
         }
@@ -68,7 +68,7 @@ function DatosPersonales({ userData }) {
           responseDatosPersonales.data.id_datosPersonales;
 
         const responseDatosObjeto = await Axios.post(
-          "http://192.168.56.1:3001/datos-objeto",
+          "http://192.168.100.106:3001/datos-objeto",
           {
             datosObjeto,
             id_datos_personales: idDatosPersonales,
@@ -77,7 +77,7 @@ function DatosPersonales({ userData }) {
 
         if (responseDatosObjeto) {
           const responseInforme = await Axios.post(
-            "http://192.168.56.1:3001/informe",
+            "http://192.168.100.106:3001/informe",
             {
               id_Usuario: userData.id,
               id_datos_personales:

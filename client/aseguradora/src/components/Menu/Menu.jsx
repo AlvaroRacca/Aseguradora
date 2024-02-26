@@ -14,7 +14,7 @@ function Menu({ isAuthenticated, setUserData, userData, setIsAuthenticated }) {
 
   const handleLogout = async () => {
     try {
-      await axios.get("http://192.168.56.1:3001/cerrar-sesion");
+      await axios.get("http://192.168.100.106:3001/cerrar-sesion");
       localStorage.removeItem("isLoggedIn");
       localStorage.removeItem("username");
       localStorage.removeItem("userId");

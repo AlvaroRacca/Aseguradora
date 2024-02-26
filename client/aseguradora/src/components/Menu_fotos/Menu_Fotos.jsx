@@ -55,8 +55,9 @@ function MenuFotos({ userData }) {
   const handlerSubirDatos = async () => {
     try {
       setLoading(true);
+      /* ip alvaro: 192.168.100.106 */
       const responseDatosPersonales = await Axios.post(
-        "http://192.168.56.1:3001/datos-personales",
+        "http://192.168.100.106:3001/datos-personales",
         {
           datosPersonales: datosPersonalesLocalState,
         }
@@ -77,7 +78,7 @@ function MenuFotos({ userData }) {
       
         // Subir la imagen a la tabla 'fotos'
         const responseFoto = await Axios.post(
-            "http://192.168.56.1:3001/subir-fotos",
+            "http://192.168.100.106:3001/subir-fotos",
             formData,
             {
               headers: {
@@ -86,7 +87,7 @@ function MenuFotos({ userData }) {
             }
           ); 
         const responseDatosObjeto = await Axios.post(
-          "http://192.168.56.1:3001/datos-objeto",
+          "http://192.168.100.106:3001/datos-objeto",
           {
             datosObjeto,
             id_datos_personales: idDatosPersonales,
@@ -95,7 +96,7 @@ function MenuFotos({ userData }) {
 
         if (responseDatosObjeto) {
           const responseInforme = await Axios.post(
-            "http://192.168.56.1:3001/informe",
+            "http://192.168.100.106:3001/informe",
             {
               id_Usuario: userData.id,
               id_datos_personales:
@@ -106,7 +107,7 @@ function MenuFotos({ userData }) {
 
           if (responseInforme) {
             if (responseInforme) {
-              if (datosUsuario.nivel == 5) {
+              if (datosUsuario.nivel === 5) {
                 navigate("/");
               } else {
                 navigate("/admin");
@@ -117,11 +118,11 @@ function MenuFotos({ userData }) {
                 showConfirmButton: false,
                 timer: 1500,
               });
-              if (userData.nivel_acceso === 1) {
+              /* if (userData.nivel_acceso === 1) {
                 navigate("/admin");
               } else {
                 navigate("/");
-              }
+              } */
             } else {
               Swal.fire({
                 icon: "error",

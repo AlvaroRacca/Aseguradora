@@ -5,6 +5,8 @@
     
   }
   
+
+
   /* Estilos para la lista de pólizas */
   .poliza-list {
     display: flex;
@@ -63,3 +65,61 @@
     animation: spin 1s linear infinite;
     margin: 10% auto;
   }
+
+  .bt-email {
+    display: flex;
+    justify-content: space-around;
+    gap: 10px;
+  }
+  
+  .bt-email-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #3498db; /* Puedes cambiar esto al color que prefieras */
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  
+    &:hover {
+      background-color: #2980b9; /* Puedes cambiar esto al color que prefieras al pasar el ratón sobre el botón */
+    }
+  }
+  
+
+  .filtro-container{
+    width: 90%;
+    display: flex;
+    margin: 0 auto;
+  }
+
+
+  @media (max-width: 600px) {
+    .form-select{
+      position: relative;
+      width: 80%;
+    }
+
+    .poliza-item {
+      border: 1px solid #ddd;
+      margin: 10px auto;
+      padding: 10px;
+      border-radius: 5px;
+      width: 90%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background-color: #f9f9f9;
+      cursor: pointer;
+    }
+
+    .fecha-vencida {
+      background-color: rgba(255, 0, 0, 0.534); /* Cambia el color a rojo si la fecha está vencida */
+    }
+    
+    .no-vencida {
+        background-color: rgba(41, 189, 21, 0.534); /* Cambia el color a verde si la fecha no está vencida */
+    }
+  }
+  

@@ -16,3 +16,10 @@
 .div-mensaje-pago{
   width: 500px;
 }
+
+@media (max-width: 600px) {
+  .formulario-personal{
+    display: flex;
+    flex-direction: column;
+  }
+}

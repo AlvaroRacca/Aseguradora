@@ -517,10 +517,11 @@ app.post('/actualizar-poliza/:id', async (req, res) => {
 /* -------------------------------------------ACTUALIZAR FECHA POLIZA------------------------------------------- */
 app.post('/actualizar-fecha/:id', async (req, res) => {
   const { id } = req.params;
+  const { fechaVen } = req.body;  // Change req.params to req.body
 
   try {
     // Actualiza el nombre de la aseguradora para la póliza con el ID proporcionado
-    await db.query('UPDATE poliza SET vencimiento = DATE_ADD(CURDATE(), INTERVAL 1 MONTH) WHERE id_poliza = ?', [id]);
+    await db.query('UPDATE poliza SET vencimiento = ? WHERE id_poliza = ?', [fechaVen, id]);  // Change the order of parameters
 
     // Devuelve una respuesta exitosa
     res.status(200).json({ message: 'Póliza actualizada exitosamente' });
@@ -568,7 +569,7 @@ function guardarEnInforme(idUsuario, idDatosPersonales, tipoObjeto) {
   });
 }
 
-
-app.listen(3001, () => {
-  console.log(`Servidor escuchando en 3001`);
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, '0.0.0.0' ,() => {
+  console.log(`Servidor escuchando en ${PORT}`);
 });

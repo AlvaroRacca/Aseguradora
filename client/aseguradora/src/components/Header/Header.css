@@ -1,10 +1,14 @@
 /* Estilos CSS para el header */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Glagolitic&display=swap');
+
+
+
 .header {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  background-color: #f0f0f0;
+  background-color: #363F42;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -14,6 +18,9 @@
 
 .header__title {
   margin: 0;
+  font-family: 'Noto Sans Glagolitic', sans-serif;
+  text-transform: uppercase;
+  color: #EFD319;
 }
 
 .header__nav {
@@ -33,6 +40,10 @@
 
 .header__button:hover {
   background-color: #0056b3;
+}
+
+#p-nombre{
+  color: white;
 }
 
 /* Media query para dispositivos móviles */

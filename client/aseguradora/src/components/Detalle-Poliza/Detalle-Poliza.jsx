@@ -1,21 +1,31 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import ButtonVolver from "../BottonVolver/BottonVolver";
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
 import axios from "axios";
 import "./Detalle-Poliza.css";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 function DetallePoliza() {
   const [detallePoliza, setDetallePoliza] = useState(null);
   const [aseguradora, setAseguradora] = useState("");
   const [aseguradoraLocal, setAseguradoraLocal] = useState("");
+  const [fechaVen, setFechaVen] = useState("");
+  const [debitoAutomatico, setDebitoAutomatico] = useState(false);
+  const [darBaja, setDarBaja] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const [numeroLocal, setNumeroLocal] = useState("");
   const navigate = useNavigate();
   const { id } = useParams();
+
   useEffect(() => {
     const fetchDetallePoliza = async () => {
       try {
         const response = await axios.get(
-          `http://192.168.56.1:3001/detalle-poliza/${id}`
+          `http://192.168.100.106:3001/detalle-poliza/${id}`
         );
         setDetallePoliza(response.data);
         setAseguradoraLocal(response.data.aseguradora);
@@ -36,7 +46,7 @@ function DetallePoliza() {
   const handleBlur = async () => {
     try {
       // Realiza una solicitud al servidor para actualizar la aseguradora
-      await axios.post(`http://192.168.56.1:3001/actualizar-poliza/${id}`, {
+      await axios.post(`http://192.168.100.106:3001/actualizar-poliza/${id}`, {
         aseguradora: aseguradoraLocal,
         numero_oficial: numeroLocal,
       });
@@ -82,16 +92,6 @@ function DetallePoliza() {
     return new Date(fecha).toLocaleDateString(undefined, options);
   };
 
-  const handleAgregarMeses = async (idPoliza) => {
-    try {
-      // Realiza la actualización en la base de datos, por ejemplo:
-      await axios.post(`http://192.168.56.1:3001/actualizar-fecha/${idPoliza}`);
-      window.location.reload();
-    } catch (error) {
-      console.error("Error al agregar meses a la póliza:", error);
-    }
-  };
-
   const aseguradoraLimpio = aseguradoraLocal === "";
   const classAseguradora = aseguradoraLimpio ? "is-empty" : "";
 
@@ -99,7 +99,56 @@ function DetallePoliza() {
     <img style={{ maxWidth: "30%", height: "auto" }} src={src} alt="Foto" />
   );
 
-  // companiasDeSeguros.js
+  const handleModalClose = () => {
+    setShowModal(false);
+  };
+
+  const handleAbrirModal = (idPoliza) => {
+    // Configura el estado para mostrar el modal
+    setShowModal(true);
+
+    // Puedes realizar cualquier lógica adicional con el idPoliza si es necesario
+  };
+
+  const handleGuardar = async (idPoliza) => {
+    try {
+      if (darBaja) {
+        handleDarDeBaja(idPoliza);
+      }
+
+      // Si es débito automático, establece fechaVen en "0000-00-00"
+      if (debitoAutomatico) {
+        setFechaVen("0000-00-00");
+      }
+
+      const response = await axios.post(
+        `http://192.168.100.106:3001/actualizar-fecha/${idPoliza}`,
+        { fechaVen }
+      );
+
+      // Verificar si la solicitud fue exitosa
+      if (response.status === 200) {
+        console.log(fechaVen);
+        Swal.fire({
+          icon: "success",
+          title: "Poliza creada exitosamente",
+          showConfirmButton: false,
+          timer: 1500,
+        }).then(() => {
+          // Recarga la página después de cerrar la alerta
+          window.location.reload();
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Hubo un error al crear poliza",
+        });
+      }
+    } catch (error) {
+      console.error("Error al informar el pago:", error);
+    }
+  };
 
   const companiasDeSeguros = [
     "AFIANZADORA LATINOAMERICANA COMPAÑÍA DE SEGUROS S.A.",
@@ -316,15 +365,16 @@ function DetallePoliza() {
   const handleDarDeBaja = async (idPoliza) => {
     try {
       // Realiza la solicitud al servidor para dar de baja la póliza
-      await axios.post(`http://192.168.56.1:3001/dar-de-baja-poliza/${idPoliza}`);
-      
+      await axios.post(
+        `http://192.168.100.106:3001/dar-de-baja-poliza/${idPoliza}`
+      );
+
       // Recarga la página para reflejar los cambios
       window.location.reload();
     } catch (error) {
       console.error("Error al dar de baja la póliza:", error);
     }
   };
-
 
   const numeroLimpio = numeroLocal === "";
   const classNumero = numeroLimpio ? "is-empty" : "";
@@ -335,20 +385,39 @@ function DetallePoliza() {
     <div className="detalle-informe-container">
       <h2 className="h1-titulo-detalle">Detalles de la Póliza</h2>
       <div className="detalle-informe-columns">
-        <p>N° de Póliza: {detallePoliza.id_poliza}</p>
+        <p className={classNumero}>
+          N° de Póliza Oficial:
+          <input
+            type="text"
+            id="input-id-poliza"
+            value={numeroLocal}
+            onChange={handleChangeNumero}
+            onBlur={handleBlur}
+            className={classNumero}
+            placeholder={numeroLocal === "" ? "Completar Campo" : numeroLocal}
+          />
+        </p>
         <p className={esFechaVencida ? "fecha-vencida" : ""}>
           Fecha vencimiento:{" "}
-          {esDebitoAutomatico
-            ? "Póliza con débito automático"
-            : fechaVencimiento}
-          {esDebitoAutomatico && (
+          {esDebitoAutomatico ? (
+            "Débito automático"
+          ) : (
+            <>{fechaVencimiento}</>
+          )}
+          <button
+            className="bt-dar-de-baja"
+            onClick={() => handleAbrirModal(detallePoliza.id_poliza)}
+          >
+            Configurar Póliza
+          </button>
+          <>
             <button
               className="bt-dar-de-baja"
               onClick={() => handleDarDeBaja(detallePoliza.id_poliza)}
             >
               Dar de Baja
             </button>
-          )}
+          </>
         </p>
         <p>Estado de Póliza: {estadosPoliza[detallePoliza.estado]}</p>
 
@@ -368,17 +437,6 @@ function DetallePoliza() {
             </option>
           ))}
         </select>
-        <p className={classNumero}>
-          N° de Póliza Oficial:
-          <input
-            type="text"
-            value={numeroLocal}
-            onChange={handleChangeNumero}
-            onBlur={handleBlur}
-            className={classNumero}
-            placeholder={numeroLocal === "" ? "Completar Campo" : numeroLocal}
-          />
-        </p>
       </div>
 
       <h2 className="h1-titulo-detalle">Detalles del Informe</h2>
@@ -409,6 +467,59 @@ function DetallePoliza() {
         <p>Email: {detallePoliza.email}</p>
       </div>
       <ButtonVolver onClick={goBack} titulo="Volver"></ButtonVolver>
+      <Modal
+        show={showModal}
+        onHide={handleModalClose}
+        centered // Center the modal vertically
+      >
+        <Modal.Body>
+          <Form>
+            <Form.Group controlId="formFechaVencimiento">
+              <Form.Label>Fecha de Vencimiento: </Form.Label>
+              <Form.Control
+                type="date"
+                value={fechaVen}
+                onChange={(e) => setFechaVen(e.target.value)}
+                disabled={debitoAutomatico}
+              />
+            </Form.Group>
+            <Form.Group controlId="formDebitoAutomatico">
+              <Form.Check
+                type="checkbox"
+                label="Débito Automático"
+                checked={debitoAutomatico}
+                disabled={fechaVen}
+                onChange={(e) => setDebitoAutomatico(e.target.checked)}
+              />
+            </Form.Group>
+            {/* <Form.Group controlId="formDarBaja">
+              <Form.Check
+                type="checkbox"
+                label="Dar de Baja"
+                checked={darBaja}
+                disabled={debitoAutomatico || fechaVen}
+                onChange={(e) => setDarBaja(e.target.checked)}
+              />
+            </Form.Group> */}
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            className="poliza-button"
+            variant="secondary"
+            onClick={handleModalClose}
+          >
+            Cancelar
+          </Button>
+          <Button
+            className="poliza-button"
+            variant="primary"
+            onClick={() => handleGuardar(detallePoliza.id_poliza)}
+          >
+            Guardar
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }

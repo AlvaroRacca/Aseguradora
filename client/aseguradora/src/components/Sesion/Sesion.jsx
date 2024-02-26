@@ -23,7 +23,8 @@ function Sesion({ setIsAuthenticated, setUserData }) {
   
     try {
       const response = await axios.post(
-        "http://192.168.56.1:3001/iniciar-sesion",
+        /* ip alvaro: 192.168.100.106 */
+        "http://192.168.100.106:3001/iniciar-sesion",
         formData
       );
   

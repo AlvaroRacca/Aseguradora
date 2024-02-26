@@ -76,9 +76,14 @@
 
 .bt-dar-de-baja {
   padding: 5px 5px;
-  margin: 10px 0;
+  
+  margin: 10px 15px;
   cursor: pointer;
   border: none;
   border-radius: 5px;
   background-color: rgba(255, 0, 0, 0.534);
+}
+
+p #input-id-poliza {
+  width: 40%;
 }

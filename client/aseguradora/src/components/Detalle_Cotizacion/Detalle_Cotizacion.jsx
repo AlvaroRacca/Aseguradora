@@ -27,7 +27,7 @@ function DetalleCotizacion({ userData, setUserData, setIsAuthenticated }) {
     const fetchCotizacion = async () => {
       try {
         const response = await axios.get(
-          `http://192.168.56.1:3001/detalle-cotizacion/${id}`
+          `http://192.168.100.106:3001/detalle-cotizacion/${id}`
         );
         setCotizacion(response.data[0]);
         setEsCotactadoEstado(response.data[0].Estado);
@@ -47,7 +47,7 @@ function DetalleCotizacion({ userData, setUserData, setIsAuthenticated }) {
     try {
       // Realizar la solicitud para actualizar el estado al servidor
       const response = await axios.post(
-        `http://192.168.56.1:3001/actualizar-estado-cotizacion/${id}`
+        `http://192.168.100.106:3001/actualizar-estado-cotizacion/${id}`
       );
 
       // Verificar si la solicitud fue exitosa

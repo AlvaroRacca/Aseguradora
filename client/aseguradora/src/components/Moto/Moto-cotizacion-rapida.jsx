@@ -58,10 +58,10 @@ function MotoCotizacionRapida() {
     }
   
     try {
-      // Realizar la inserción en la base de datos
-      const response = await Axios.post("http://192.168.56.1:3001/crear-cotizacion", datosObjeto);
+      /* ip alvaro: 192.168.100.106 */
+      const response = await Axios.post("http://192.168.100.106:3001/crear-cotizacion", datosObjeto);
   
-      // Verificar el estado de la respuesta del servidor
+      
       if (response.status === 200) {
         Swal.fire({
           icon: "success",
@@ -69,10 +69,10 @@ function MotoCotizacionRapida() {
           text: "Su cotizacion fue enviada con exito",
         });
   
-        // Redirigir a la siguiente página después del éxito
+        
         navigate("/");
       } else {
-        // Mostrar un mensaje de error en caso de un estado diferente
+        
         throw new Error("Error en la inserción");
       }
     } catch (error) {

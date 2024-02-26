@@ -28,7 +28,7 @@ function DetalleInforme() {
     const fetchInforme = async () => {
       try {
         const response = await axios.get(
-          `http://192.168.56.1:3001/detalle-informe/${id}/${tipoObjeto}`
+          `http://192.168.100.106:3001/detalle-informe/${id}/${tipoObjeto}`
         );
         setInforme(response.data);
         setPolizaVigente(response.data.estadoInfo);
@@ -47,7 +47,7 @@ function DetalleInforme() {
       }
 
       const response = await axios.post(
-        `http://192.168.56.1:3001/crear-poliza/${id}`,
+        `http://192.168.100.106:3001/crear-poliza/${id}`,
         { fechaVencimiento }
       );
 

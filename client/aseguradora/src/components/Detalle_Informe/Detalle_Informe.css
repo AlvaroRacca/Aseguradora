@@ -1,3 +1,42 @@
+/* Estilos para el spinner de carga */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-spinner {
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid #0099ff;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: 20% auto;
+}
+
+/* Estilos CSS para la galería de fotos */
+.fotos-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  margin-top: 20px;
+  padding: 5px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.fotos-container img {
+  border-radius: 10px;
+  margin: 5px;
+  width: 30%;
+  height: auto;
+}
+
 /* Estilos CSS */
 .detalle-informe-container {
   padding: 20px;
@@ -32,93 +71,38 @@
   background-color: red;
 }
 
-/* Estilos CSS para la galería de fotos */
-.fotos-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-  margin-top: 20px;
-  padding: 5px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  background-color: #f9f9f9;
+/* Estilos para el modal */
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
-.fotos-container img {
-  border-radius: 10px;
-  margin: 5px;
-  width: 30%;
-  height: auto;
-}
-
-
-/* Estilos para el spinner de carga */
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-.loading-spinner {
-  border: 8px solid #f3f3f3;
-  border-top: 8px solid #0099ff;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  animation: spin 1s linear infinite;
-  margin: 20% auto;
-}
-
-/* Add this CSS to your component or style file */
-
-/* Style for the modal */
 .modal-content {
   background-color: white;
   padding: 50px;
   border: none;
   border-radius: 8px;
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  width: 80%; /* Ajusta el ancho del modal según tus preferencias */
+  max-width: 600px;
+  height: 50%; /* Ajusta el ancho máximo del modal según tus preferencias */
 }
 
-/* Style to center the modal vertically */
-.modal {
-  position: absolute;
-  top: 40%;
-  left: 35%;
-  margin: 0 auto;
+/* Estilos para pantallas pequeñas (móviles) */
+@media (max-width: 767px) {
+  .modal {
+    width: 50%;
+    position: fixed;
+    top: 50%;
+    left: 43%;
+  }
+
+  .modal-content {
+    width: 80%;
+    max-width: none;
+  }
 }
-
-
-.modal-header {
-  background-color: #007bff; /* Header background color, change as needed */
-  color: white; /* Header text color, change as needed */
-  border-bottom: none;
-  border-radius: 8px 8px 0 0; 
-}
-
-/* Style for the modal title */
-.modal-title {
-  margin: 0; /* Remove default margin */
-}
-
-/* Style for the modal body */
-.modal-body {
-  padding: 20px; /* Adjust padding as needed */
-}
-
-.modal-footer {
-  border-top: none; 
-  border-radius: 0 0 8px 8px;
-  justify-content: center;
-  text-align: center;
-  
-}
-
-.poliza-button {
-  margin: 0px 20px; /* Adjust margin as needed */
-}
-
-.modal-backdrop {
-  background-color: rgba(0, 0, 0, 0.5); 
-}
-
-

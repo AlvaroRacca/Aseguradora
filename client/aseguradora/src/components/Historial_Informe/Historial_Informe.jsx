@@ -10,7 +10,6 @@ function HistorialInforme({ isAuthenticated }) {
   const navigate = useNavigate();
   const [patenteBusqueda, setPatenteBusqueda] = useState("");
 
-
   const handleFiltroChange = (e) => {
     setFiltro(e.target.value);
   };
@@ -28,7 +27,7 @@ function HistorialInforme({ isAuthenticated }) {
     try {
       // Hacer la solicitud para filtrar los datos según el filtro
       const response = await Axios.get(
-        `http://192.168.56.1:3001/obtener-informes/${filtro}`
+        `http://192.168.100.106:3001/obtener-informes/${filtro}`
       );
 
       const responseData = response.data;
@@ -60,6 +59,8 @@ function HistorialInforme({ isAuthenticated }) {
     }
   };
 
+  const hasResults = informe.length > 0;
+
   // Llamada inicial al cargar el componente
   useEffect(() => {
     handleFiltrar();
@@ -75,7 +76,9 @@ function HistorialInforme({ isAuthenticated }) {
     navigate(-1); // Utiliza navigate con un valor negativo para retroceder
   };
 
-  if (informe.length === 0) {
+
+  if (informe === null) {
+    // Manejo de carga
     return (
       <div className="detalle-informe-container loading-spinner-container">
         <div className="loading-spinner"></div>
@@ -93,7 +96,6 @@ function HistorialInforme({ isAuthenticated }) {
             className="form-select"
             value={filtro}
             onChange={handleFiltroChange}
-            
           >
             <option value="todas">Todas los informes</option>
             <option value="auto">Auto</option>
@@ -128,6 +130,11 @@ function HistorialInforme({ isAuthenticated }) {
           </div>
         </label>
       </form>
+      {!hasResults && (
+          <p className="sin-resultados-mensaje">
+            No se encontraron informes para los criterios seleccionados.
+          </p>
+        )}
       <div className="informe-list">
         {informe.map((informe) => (
           <div
@@ -137,9 +144,6 @@ function HistorialInforme({ isAuthenticated }) {
               handleInformeClick(informe.id_informe, informe.tipo_objeto)
             }
           >
-            <p>
-              <strong>Informe:</strong> {informe.id_informe}
-            </p>
             <p>
               <strong>Tipo:</strong> {informe.tipo_objeto}
             </p>

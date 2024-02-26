@@ -14,3 +14,11 @@ a {
     justify-content: space-around;
     margin: 0 auto;
 }
+
+@media (max-width: 600px) {
+    .div_bt-opciones{
+        display: flex;
+        flex-direction: column;
+    }
+  }
+  

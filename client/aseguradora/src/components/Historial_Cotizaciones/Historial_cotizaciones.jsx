@@ -14,7 +14,7 @@ function HistorialCotizaciones() {
     const fetchCotizaciones = async () => {
       try {
         const response = await axios.get(
-          "http://192.168.56.1:3001/mostrar-cotizaciones"
+          "http://192.168.100.106:3001/mostrar-cotizaciones"
         );
         setCotizaciones(response.data);
       } catch (error) {
