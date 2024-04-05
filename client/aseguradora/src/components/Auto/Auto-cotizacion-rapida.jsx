@@ -1,14 +1,16 @@
 import React, { useState }  from "react";
 import InputGlobal from "../InputGlobal/InputGlobal";
 import Button from "../Button/Button";
-import ButtonVolver from "../BottonVolver/BottonVolver";
+import {ButtonVolver, ButtonFinalizar} from "../BottonVolver/BottonVolver";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import Axios from "axios";
+import config from "../config";
 
 function AutoCotizacionRapida() {
   const navigate = useNavigate();
+  const DB_HOST = config.DB_HOST;
 
    /* Alerttaaaaaa */
    const MySwal = withReactContent(Swal);
@@ -61,7 +63,7 @@ function AutoCotizacionRapida() {
   
     try {
       // Realizar la inserción en la base de datos
-      const response = await Axios.post("http://192.168.100.106:3001/crear-cotizacion", datosObjeto);
+      const response = await Axios.post(`http://${DB_HOST}/crear-cotizacion`, datosObjeto);
   
       // Verificar el estado de la respuesta del servidor
       if (response.status === 200) {
@@ -142,7 +144,7 @@ function AutoCotizacionRapida() {
       </form>
       <div className="div_bt-opciones">
         <ButtonVolver onClick={goBack} titulo="Volver"></ButtonVolver>
-        <Button titulo="Finalizar" onClick={handleContinuarClick}></Button>
+        <ButtonFinalizar onClick={handleContinuarClick}></ButtonFinalizar>
       </div>
     </div>
   );

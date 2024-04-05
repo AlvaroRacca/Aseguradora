@@ -4,8 +4,9 @@ import Button from "../Button/Button";
 import axios from "axios";
 import "./detalle_cotizacion.css";
 import Swal from "sweetalert2";
-import ButtonVolver from "../BottonVolver/BottonVolver";
+import { ButtonVolver } from "../BottonVolver/BottonVolver"; 
 import withReactContent from "sweetalert2-react-content";
+import config from "../config";
 
 function DetalleCotizacion({ userData, setUserData, setIsAuthenticated }) {
   const [cotizacion, setCotizacion] = useState(null);
@@ -14,6 +15,9 @@ function DetalleCotizacion({ userData, setUserData, setIsAuthenticated }) {
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
   const navigate = useNavigate();
+
+
+  const DB_HOST = config.DB_HOST;
 
   /* Alerttaaaaaa */
   const MySwal = withReactContent(Swal);
@@ -27,7 +31,7 @@ function DetalleCotizacion({ userData, setUserData, setIsAuthenticated }) {
     const fetchCotizacion = async () => {
       try {
         const response = await axios.get(
-          `http://192.168.100.106:3001/detalle-cotizacion/${id}`
+          `http://${DB_HOST}/detalle-cotizacion/${id}`
         );
         setCotizacion(response.data[0]);
         setEsCotactadoEstado(response.data[0].Estado);
@@ -47,7 +51,7 @@ function DetalleCotizacion({ userData, setUserData, setIsAuthenticated }) {
     try {
       // Realizar la solicitud para actualizar el estado al servidor
       const response = await axios.post(
-        `http://192.168.100.106:3001/actualizar-estado-cotizacion/${id}`
+        `http://${DB_HOST}/actualizar-estado-cotizacion/${id}`
       );
 
       // Verificar si la solicitud fue exitosa
@@ -129,10 +133,11 @@ function DetalleCotizacion({ userData, setUserData, setIsAuthenticated }) {
               onClick={contactar}
             ></Button>
           )}
+          
         </div>
       )}
-      <ButtonVolver onClick={goBack} titulo="Volver"></ButtonVolver>
-    </div>
+      <ButtonVolver onClick={goBack}></ButtonVolver>
+    </div>  
   );
 }
 

@@ -2,15 +2,25 @@ import React, { useState } from "react";
 import { usePhotoContext } from "../Foto/PhotoContext";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import axios from "axios";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 import "./Sesion.css";
+import config from "../config";
 
 function Sesion({ setIsAuthenticated, setUserData }) {
   const [formData, setFormData] = useState({ username: "", password: "" });
   const [error, setError] = useState("");
   const [nivelAcceso, setNivelAcceso] = useState(""); // Almacena el nivel de acceso
   const [nombreUsuario, setNombreUsuario] = useState(""); // Almacena el nombre de usuario
+  const [idAsegurador, setIdAsegurador] = useState(""); // Almacena el nombre de usuario
   const navigate = useNavigate();
+  /* Alerttaaaaaa */
+  const MySwal = withReactContent(Swal);
+  /* ----------------- */
+
   const { setDatosUsuario } = usePhotoContext();
+
+  const DB_HOST = config.DB_HOST;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,8 +33,7 @@ function Sesion({ setIsAuthenticated, setUserData }) {
   
     try {
       const response = await axios.post(
-        /* ip alvaro: 192.168.100.106 */
-        "http://192.168.100.106:3001/iniciar-sesion",
+        `http://${DB_HOST}/iniciar-sesion`,
         formData
       );
   
@@ -36,20 +45,29 @@ function Sesion({ setIsAuthenticated, setUserData }) {
           localStorage.setItem("username", formData.username);
           localStorage.setItem("userId", response.data.usuario.id);
           localStorage.setItem("nivel", response.data.usuario.nivel);
-  
-          setIsAuthenticated(true);
+          localStorage.setItem("asegurador",response.data.usuario.asegurador)
+          setIsAuthenticated(true); 
           setNivelAcceso(response.data.message === "Bienvenido, Administrador" ? "admin" : "usuario");
-          setUserData({ id: response.data.usuario.id, username: formData.username, nivel:response.data.usuario.nivel });
+          setUserData({ id: response.data.usuario.id, username: formData.username, nivel:response.data.usuario.nivel, asegurador:response.data.usuario.asegurador});
           setDatosUsuario(response.data.usuario);
+          setIdAsegurador(response.data.usuario.asegurador);
           navigate(response.data.message === "Bienvenido, Administrador" ? "/admin" : "/");
         } else {
           setError("Acceso no autorizado");
         }
       } else {
-        setError("Error al iniciar sesión");
+        Swal.fire({
+        icon: "error",
+        title: "Ops",
+        text: "Usuario y/o contraseña incorrecta",
+      });
       }
     } catch (error) {
-      setError("Error al iniciar sesión");
+      Swal.fire({
+        icon: "error",
+        title: "Ops",
+        text: "Usuario y/o contraseña incorrecta",
+      });
     }
   };
 
@@ -83,6 +101,7 @@ function Sesion({ setIsAuthenticated, setUserData }) {
         </div>
         <button type="submit">Iniciar sesión</button>
       </form>
+        <button className="bt-registrar" type="submit" style={{backgroundColor:"#ccc", color:"black"}}>Registrarse</button>
     </div>
   );
 }

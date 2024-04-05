@@ -5,10 +5,13 @@ import Axios from "axios";
 import { usePhotoContext } from "../Foto/PhotoContext";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import config from "../config";
+import { ButtonFinalizar} from "../BottonVolver/BottonVolver";
 
 function MenuFotos({ userData }) {
   /* Alerttaaaaaa */
   const MySwal = withReactContent(Swal);
+  const DB_HOST = config.DB_HOST;
   /* ----------------- */
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -57,7 +60,7 @@ function MenuFotos({ userData }) {
       setLoading(true);
       /* ip alvaro: 192.168.100.106 */
       const responseDatosPersonales = await Axios.post(
-        "http://192.168.100.106:3001/datos-personales",
+        `http://${DB_HOST}/datos-personales`,
         {
           datosPersonales: datosPersonalesLocalState,
         }
@@ -69,25 +72,26 @@ function MenuFotos({ userData }) {
         formData.append("id_datos_personales", idDatosPersonales);
 
         for (const image of capturedImages) {
-            // Convertir la ruta de la imagen en datos binarios
-            const response = await Axios.get(image.src, { responseType: "arraybuffer" });
-            const blob = new Blob([response.data]);
-            formData.append("images", blob);
-          } 
+          // Convertir la ruta de la imagen en datos binarios
+          const response = await Axios.get(image.src, {
+            responseType: "arraybuffer",
+          });
+          const blob = new Blob([response.data]);
+          formData.append("images", blob);
+        }
 
-      
         // Subir la imagen a la tabla 'fotos'
         const responseFoto = await Axios.post(
-            "http://192.168.100.106:3001/subir-fotos",
-            formData,
-            {
-              headers: {
-                "Content-Type": "multipart/form-data",
-              },
-            }
-          ); 
+          `http://${DB_HOST}/subir-fotos`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
         const responseDatosObjeto = await Axios.post(
-          "http://192.168.100.106:3001/datos-objeto",
+          `http://${DB_HOST}/datos-objeto`,
           {
             datosObjeto,
             id_datos_personales: idDatosPersonales,
@@ -96,7 +100,7 @@ function MenuFotos({ userData }) {
 
         if (responseDatosObjeto) {
           const responseInforme = await Axios.post(
-            "http://192.168.100.106:3001/informe",
+            `http://${DB_HOST}/informe`,
             {
               id_Usuario: userData.id,
               id_datos_personales:
@@ -154,7 +158,7 @@ function MenuFotos({ userData }) {
     } catch (error) {
       console.error(error);
       alert("Hubo un error. Mira la consola para obtener más detalles.");
-    }finally {
+    } finally {
       // Después de obtener los datos, actualiza el estado de carga
       setLoading(false);
     }
@@ -163,57 +167,60 @@ function MenuFotos({ userData }) {
   return (
     <div>
       <div className="div-bt-inicio" style={{ marginTop: "0%" }}>
-      {loading ? (
-        <div className="detalle-informe-container loading-spinner-container">
-        <div className="loading-spinner"></div>
-      </div>
-      ) : (
-      <>
-        <Link to="/adjuntar-foto">
-          <Button titulo="Foto Frontal"></Button>
-        </Link>
-        <Link to="/adjuntar-foto">
-          <Button titulo="Foto Trasera"></Button>
-        </Link>
-        <Link to="/adjuntar-foto">
-          <Button titulo="Foto Lateral Derecha"></Button>
-        </Link>
-        <Link to="/adjuntar-foto">
-          <Button titulo="Foto Lateral Izquierda"></Button>
-        </Link>
+        {loading ? (
+          <div className="detalle-informe-container loading-spinner-container">
+            <div className="loading-spinner"></div>
+          </div>
+        ) : (
+          <>
+            <Link to="/adjuntar-foto">
+              <Button titulo="Foto Frontal"></Button>
+            </Link>
+            <Link to="/adjuntar-foto">
+              <Button titulo="Foto Trasera"></Button>
+            </Link>
+            <Link to="/adjuntar-foto">
+              <Button titulo="Foto Lateral Derecha"></Button>
+            </Link>
+            <Link to="/adjuntar-foto">
+              <Button titulo="Foto Lateral Izquierda"></Button>
+            </Link>
 
-        {tipoObjeto === "auto" && GNC === "SI" && (
-          <Link to="/adjuntar-foto">
-            <Button titulo="Foto Tarjeta GNC"></Button>
-          </Link>
-        )}
+            {tipoObjeto === "auto" && GNC === "SI" && (
+              <Link to="/adjuntar-foto">
+                <Button titulo="Foto Tarjeta GNC"></Button>
+              </Link>
+            )}
 
-        {tipoObjeto === "auto" && (
-          <Link className="link-foto" to="/adjuntar-foto">
-            <Button titulo="Foto Frente Tarjeta"></Button>
-          </Link>
-        )}
+            {tipoObjeto === "auto" && (
+              <Link className="link-foto" to="/adjuntar-foto">
+                <Button titulo="Foto Frente Tarjeta"></Button>
+              </Link>
+            )}
 
-        {tipoObjeto === "moto" && (
-          <Link className="link-foto" to="/adjuntar-foto">
-            <Button titulo="Foto Frente Tarjeta"></Button>
-          </Link>
-        )}
+            {tipoObjeto === "moto" && (
+              <Link className="link-foto" to="/adjuntar-foto">
+                <Button titulo="Foto Frente Tarjeta"></Button>
+              </Link>
+            )}
 
-        {tipoObjeto === "bicicleta" && (
-          <Link className="link-foto" to="/adjuntar-foto">
-            <Button titulo="Foto N° Cuadro"></Button>
-          </Link>
-        )}
+            {tipoObjeto === "bicicleta" && (
+              <Link className="link-foto" to="/adjuntar-foto">
+                <Button titulo="Foto N° Cuadro"></Button>
+              </Link>
+            )}
 
-        {tipoObjeto === "celular" && (
-          <Link className="link-foto" to="/adjuntar-foto">
-            <Button titulo="Foto N° IMEI"></Button>
-          </Link>
+            {tipoObjeto === "celular" && (
+              <Link className="link-foto" to="/adjuntar-foto">
+                <Button titulo="Foto N° IMEI"></Button>
+              </Link>
+            )}
+            {/* {capturedImages && <Galeria fotos={capturedImages} />} */}
+            <ButtonFinalizar onClick={handlerSubirDatos}></ButtonFinalizar>
+            
+          </>
         )}
-        {/* {capturedImages && <Galeria fotos={capturedImages} />} */}
-        <Button titulo="Finalizar" onClick={handlerSubirDatos}></Button>
-        </>)};
+        ;
       </div>
     </div>
   );

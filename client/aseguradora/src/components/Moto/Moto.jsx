@@ -169,8 +169,34 @@ function Moto() {
         </div>
       </form>
       <div className="div_bt-opciones">
-        <ButtonVolver onClick={goBack} titulo="Volver"></ButtonVolver>
-        <Button titulo="Continuar" onClick={handleContinuarClick}></Button>
+      <img
+      onClick={goBack}
+              src="asset/siguiente.png"
+              alt="Asegurar"
+              style={{
+                transform: "rotate(180deg)",
+                marginTop:"30px",
+                width: "50px",
+                height: "50px",
+                display: "block",
+                margin: "auto",
+                cursor:"pointer"
+              }}
+            />
+
+        <img
+      onClick={handleContinuarClick}
+              src="asset/siguiente.png"
+              alt="Asegurar"
+              style={{
+                marginTop:"30px",
+                width: "50px",
+                height: "50px",
+                display: "block",
+                margin: "auto",
+                cursor:"pointer"
+              }}
+            />
       </div>
     </div>
   );

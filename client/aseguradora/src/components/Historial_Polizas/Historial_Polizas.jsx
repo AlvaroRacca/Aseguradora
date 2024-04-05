@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./Historial_Polizas.css";
-import ButtonVolver from "../BottonVolver/BottonVolver";
+import {ButtonVolver} from "../BottonVolver/BottonVolver";
 import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/esm/Button";
 import ButtonMio from "../Button/Button";
@@ -9,7 +9,11 @@ import emailjs from "emailjs-com";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
+import config from "../config";
+
 function Historial_Polizas({ isAuthenticated, handlePolizaClick }) {
+  const DB_HOST = config.DB_HOST;
+
   const [polizas, setPolizas] = useState([]);
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
@@ -26,7 +30,7 @@ function Historial_Polizas({ isAuthenticated, handlePolizaClick }) {
   useEffect(() => {
     const fetchPolizas = async () => {
       try {
-        const response = await axios.get("http://192.168.100.106:3001/polizas");
+        const response = await axios.get(`http://${DB_HOST}/polizas`);
         setPolizas(response.data);
         setFilteredPolizas(response.data);
       } catch (error) {

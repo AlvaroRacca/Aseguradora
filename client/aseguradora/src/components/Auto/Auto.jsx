@@ -206,9 +206,34 @@ function Auto() {
         </div>
       </form>
       <div className="div_bt-opciones">
-        <ButtonVolver onClick={goBack} titulo="Volver"></ButtonVolver>
+      <img
+      onClick={goBack}
+              src="siguiente.png"
+              alt="Asegurar"
+              style={{
+                transform: "rotate(180deg)",
+                marginTop:"30px",
+                width: "50px",
+                height: "50px",
+                display: "block",
+                margin: "auto",
+                cursor:"pointer"
+              }}
+            />
 
-        <Button titulo="Continuar" onClick={handleContinuarClick}></Button>
+        <img
+      onClick={handleContinuarClick}
+              src="siguiente.png"
+              alt="Asegurar"
+              style={{
+                marginTop:"30px",
+                width: "50px",
+                height: "50px",
+                display: "block",
+                margin: "auto",
+                cursor:"pointer"
+              }}
+            />
       </div>
     </div>
   );

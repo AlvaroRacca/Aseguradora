@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./Historial_cotizaciones.css";
-import ButtonVolver from "../BottonVolver/BottonVolver";
+import {ButtonVolver} from "../BottonVolver/BottonVolver";
+import config from "../config";
 
 function HistorialCotizaciones() {
+  const DB_HOST = config.DB_HOST;
   const [cotizaciones, setCotizaciones] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filtro, setFiltro] = useState("todos");
@@ -14,7 +16,7 @@ function HistorialCotizaciones() {
     const fetchCotizaciones = async () => {
       try {
         const response = await axios.get(
-          "http://192.168.100.106:3001/mostrar-cotizaciones"
+          `http://${DB_HOST}/mostrar-cotizaciones`
         );
         setCotizaciones(response.data);
       } catch (error) {

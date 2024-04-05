@@ -2,9 +2,10 @@
   max-width: 400px;
   margin: 10% auto;
   padding: 20px;
-  border: 1px solid #ccc;
+  border: 1px solid #ffffff;
   border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+  background-color: #ffffff8c;
   text-align: center;
 }
 
@@ -36,7 +37,7 @@
   border-radius: 3px;
 }
 
-.login-form button {
+.login-form button, .bt-registrar {
   background-color: #007bff;
   color: #fff;
   border: none;
@@ -44,10 +45,12 @@
   padding: 12px;
   cursor: pointer;
   font-size: 16px;
+  margin: 10px ;
 }
 
 .login-form button:hover {
   background-color: #0056b3;
+  
 }
 
 .error-message {

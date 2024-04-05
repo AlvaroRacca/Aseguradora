@@ -2,7 +2,7 @@ import "./DatosPersonales.css";
 import React, { useState } from "react";
 import InputGlobal from "../InputGlobal/InputGlobal";
 import Button from "../Button/Button";
-import ButtonVolver from "../BottonVolver/BottonVolver";
+import {ButtonVolver, ButtonFinalizar} from "../BottonVolver/BottonVolver";
 import { useNavigate, useLocation } from "react-router-dom";
 import { usePhotoContext } from "../Foto/PhotoContext";
 import Swal from "sweetalert2";
@@ -301,7 +301,7 @@ if (datosPersonales.Forma_Pago === "Transferencia") {
       <div className="div_bt-opciones">
         <ButtonVolver onClick={goBack} titulo="Volver"></ButtonVolver>
         {/* <Button titulo="Finalizar" onClick={handleFinalizar}></Button> */}
-        <Button titulo="Continuar" onClick={handleContinuarClick}></Button>
+        <ButtonFinalizar onClick={handleContinuarClick}></ButtonFinalizar>
       </div>
     </div>
   );

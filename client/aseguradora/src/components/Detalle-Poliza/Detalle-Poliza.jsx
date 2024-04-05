@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import ButtonVolver from "../BottonVolver/BottonVolver";
+import {ButtonVolver} from "../BottonVolver/BottonVolver";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
@@ -8,8 +8,10 @@ import axios from "axios";
 import "./Detalle-Poliza.css";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import config from "../config";
 
 function DetallePoliza() {
+  const DB_HOST = config.DB_HOST;
   const [detallePoliza, setDetallePoliza] = useState(null);
   const [aseguradora, setAseguradora] = useState("");
   const [aseguradoraLocal, setAseguradoraLocal] = useState("");
@@ -25,7 +27,7 @@ function DetallePoliza() {
     const fetchDetallePoliza = async () => {
       try {
         const response = await axios.get(
-          `http://192.168.100.106:3001/detalle-poliza/${id}`
+          `http://${DB_HOST}/detalle-poliza/${id}`
         );
         setDetallePoliza(response.data);
         setAseguradoraLocal(response.data.aseguradora);
@@ -46,7 +48,7 @@ function DetallePoliza() {
   const handleBlur = async () => {
     try {
       // Realiza una solicitud al servidor para actualizar la aseguradora
-      await axios.post(`http://192.168.100.106:3001/actualizar-poliza/${id}`, {
+      await axios.post(`http://${DB_HOST}/actualizar-poliza/${id}`, {
         aseguradora: aseguradoraLocal,
         numero_oficial: numeroLocal,
       });
@@ -122,7 +124,7 @@ function DetallePoliza() {
       }
 
       const response = await axios.post(
-        `http://192.168.100.106:3001/actualizar-fecha/${idPoliza}`,
+        `http://${DB_HOST}/actualizar-fecha/${idPoliza}`,
         { fechaVen }
       );
 
@@ -362,11 +364,11 @@ function DetallePoliza() {
     "ZURICH SANTANDER SEGUROS ARGENTINA S.A.",
   ];
 
-  const handleDarDeBaja = async (idPoliza) => {
+  const handleDarDeBaja = async (idPoliza, idInforme) => {
     try {
       // Realiza la solicitud al servidor para dar de baja la póliza
       await axios.post(
-        `http://192.168.100.106:3001/dar-de-baja-poliza/${idPoliza}`
+        `http://${DB_HOST}/dar-de-baja-poliza/${idPoliza}/${idInforme}`
       );
 
       // Recarga la página para reflejar los cambios
@@ -413,7 +415,7 @@ function DetallePoliza() {
           <>
             <button
               className="bt-dar-de-baja"
-              onClick={() => handleDarDeBaja(detallePoliza.id_poliza)}
+              onClick={() => handleDarDeBaja(detallePoliza.id_poliza, detallePoliza.id_informe)}
             >
               Dar de Baja
             </button>

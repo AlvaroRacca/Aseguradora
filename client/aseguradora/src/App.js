@@ -30,12 +30,14 @@ function App() {
   const savedUsername = localStorage.getItem("username");
   const savedUserId = localStorage.getItem("userId");
   const savedUserNivel = localStorage.getItem("nivel");
+  const savedIdAsegurador = localStorage.getItem("asegurador");
   // Establecer el estado de autenticación si se encuentran los datos del usuario
   const [isAuthenticated, setIsAuthenticated] = useState(!!savedUsername);
   const [userData, setUserData] = useState({
     username: savedUsername || "",
     userId: savedUserId || null,
     nivel : savedUserNivel || "0",
+    id_asegurador:savedIdAsegurador || null,
   });
 
   const { datosUsuario } = usePhotoContext();
@@ -44,11 +46,13 @@ function App() {
     const savedUsername = localStorage.getItem("username");
     const savedUserId = localStorage.getItem("userId");
     const savedUserNivel = localStorage.getItem("nivel");
+    const savedIdAsegurador = localStorage.getItem("asegurador");
     setIsAuthenticated(!!savedUsername);
     setUserData({
       username: savedUsername || "",
       userId: savedUserId || null,
       nivel : savedUserNivel || "",
+      id_asegurador:savedIdAsegurador || null,
     });
   }, []);
 
@@ -65,16 +69,22 @@ function App() {
     localStorage.removeItem("username");
     localStorage.removeItem("userId");
     localStorage.removeItem("nivel");
+    localStorage.removeItem("asegurador")
     setIsAuthenticated(false);
     setUserData({
       username: "",
       userId: null,
       nivel: "",
+      id_asegurador:null
     });
   };
   return (
     <Router>
-      <Header></Header>
+      <Header isAuthenticated={isAuthenticated}
+              onLogout={handleLogout}
+              userData={userData}
+              setUserData={setUserData}
+              setIsAuthenticated={setIsAuthenticated}></Header>
       <Routes>
         {/* <Route
           path="/"

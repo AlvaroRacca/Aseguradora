@@ -6,12 +6,14 @@ import ButtonPropio from "../Button/Button";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import ButtonVolver from "../BottonVolver/BottonVolver";
+import {ButtonVolver} from "../BottonVolver/BottonVolver";
 
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import config from "../config";
 
 function DetalleInforme() {
+  const DB_HOST = config.DB_HOST;
   const { id, tipoObjeto } = useParams();
   const [informe, setInforme] = useState(null);
   const [polizaVigente, setPolizaVigente] = useState("");
@@ -28,7 +30,7 @@ function DetalleInforme() {
     const fetchInforme = async () => {
       try {
         const response = await axios.get(
-          `http://192.168.100.106:3001/detalle-informe/${id}/${tipoObjeto}`
+          `http://${DB_HOST}/detalle-informe/${id}/${tipoObjeto}`
         );
         setInforme(response.data);
         setPolizaVigente(response.data.estadoInfo);
@@ -47,7 +49,7 @@ function DetalleInforme() {
       }
 
       const response = await axios.post(
-        `http://192.168.100.106:3001/crear-poliza/${id}`,
+        `http://${DB_HOST}/crear-poliza/${id}`,
         { fechaVencimiento }
       );
 
@@ -83,14 +85,15 @@ function DetalleInforme() {
   }
 
   const estadosMapping = {
-    A: "Activo Sin Poliza",
+    A: "Esperando creacion de poliza",
     I: "Inactivo",
     P: "Poliza Activa",
   };
 
   const estadosPoliza = {
     P: "Con Poliza Activa",
-    A: "Sin Poliza Vigente",
+    I: "Sin Poliza Vigente",
+    A: "Esperando cracion de poliza"
   };
 
   const goBack = () => {
@@ -111,7 +114,6 @@ function DetalleInforme() {
 
   const esPolizaActiva = estadosPoliza[polizaVigente] === "Con Poliza Activa";
   const claseDeEstilo = esPolizaActiva ? "poliza-activa" : "sin-poliza-activa";
-  /* console.log("Datos de las fotos:", informe); */
 
   return (
     <div className="detalle-informe-container">
@@ -188,13 +190,16 @@ function DetalleInforme() {
           })}
         </div>
       </div>
+      <div className="crear-poliza-bt">
       <h1 className={claseDeEstilo}>{estadosPoliza[polizaVigente]} </h1>
-      {estadosPoliza[polizaVigente] !== "Con Poliza Activa" && (
+      {estadosPoliza[polizaVigente] == "Sin Poliza Vigente" && (
         <>
-           <ButtonPropio titulo="Crear Póliza" onClick={() => setShowModal(true)} />
+           
+           <button onClick={() => setShowModal(true)} >{`Crear Póliza para el cliente ${informe.nombre} ${informe.apellido}`}</button>  
         </>
       )}
-      <ButtonVolver onClick={goBack} titulo="Volver"></ButtonVolver>
+      </div>
+      <ButtonVolver onClick={goBack}></ButtonVolver>
       <Modal
         show={showModal}
         onHide={handleModalClose}

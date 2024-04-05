@@ -10,9 +10,14 @@
 
 .div-bt-inicio{
     position: fixed;
-    top: 35%;
+    top: 30%;
     left: 0;
     right: 0;
+}
+
+.div-cards{
+    display: flex;
+    justify-content: center;
 }
 
 @media (max-width: 600px) {
@@ -21,3 +26,58 @@
         text-align: center;
     }
 }
+
+body{
+    background-image: url('../../../public/asset/imagen-seguro.jpg'); /* Ruta a tu imagen de fondo */
+    background-size: cover; /* Para que la imagen cubra todo el fondo */
+    background-repeat: no-repeat; 
+    overflow: scroll;
+}
+
+/* Oculta la barra de desplazamiento */
+body::-webkit-scrollbar {
+    display: none; /* Para navegadores basados en WebKit, como Chrome y Safari */
+  }
+
+.img-salida, .img-iniciar{
+    position: absolute;
+    width: 2%;
+    top: 0px;
+    left: 96%;
+}
+
+.contador-container {
+    margin: 10px auto;
+    position: relative; /* Contenedor de posición relativa */
+    display: flex;
+    align-items: center;
+  }
+  
+  .imagen-contenedor {
+    position: absolute; /* Imagen de posición absoluta */
+    left: -80px; /* Ajuste para alinear con el texto y el contador */
+  }
+  
+  .texto-contenedor{
+    margin-left: -10px;
+  }
+  .contadores {
+    margin-top: -30px; /* Ajuste de margen para el espacio restante */
+    margin-right: -20px;
+  }
+  
+  .texto-contenedor {
+    margin-top: 20px; /* Espacio entre el contador y el texto */
+  }
+  
+  .asegurador_select{
+    display: flex;
+    flex-direction: row;
+    margin:  -10px auto;
+    width: 30%;
+  }
+
+ .select-asegurador{
+  width: 50px;
+  margin-bottom: 10px;
+ }

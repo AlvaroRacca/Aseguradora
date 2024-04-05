@@ -2,6 +2,7 @@ import "./Objetos.css";
 import Button from "../Button/Button";
 import ButtonVolver from "../BottonVolver/BottonVolver";
 import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Card } from "flowbite-react";
 
 function Objetos() {
   const navigate = useNavigate();
@@ -12,20 +13,91 @@ function Objetos() {
   return (
     <div className="App">
       <h1 className="seleccion-objeto-h1">Seleccionar Objeto a Asegurar</h1>
-      <Link to="/auto">
-        <Button titulo="AUTO"></Button>
+      <div className="div-cards">
+      <Link to="/auto" style={{ display: "inline-block" }}>
+      <Card className="card max-w-sm">
+                <img
+                    src="asset/auto.png"
+                    alt="Asegurar"
+                    style={{
+                      width: "100px",
+                      height: "100px",
+                      display: "block",
+                      margin: "auto",
+                    }}
+                  />
+                  <h3 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white" style={{textAlign:"center"}}>
+                    Auto
+                  </h3>
+                </Card>
       </Link>
-      <Link to="/moto">
-        <Button titulo="MOTO"></Button>
+      <Link to="/moto" style={{ display: "inline-block" }}>
+      <Card className="card max-w-sm">
+                <img
+                    src="asset/moto.png"
+                    alt="Asegurar"
+                    style={{
+                      width: "100px",
+                      height: "100px",
+                      display: "block",
+                      margin: "auto",
+                    }}
+                  />
+                  <h3 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white" style={{textAlign:"center"}}>
+                    Moto
+                  </h3>
+                </Card>
       </Link>
-      <Link to="/bici">
-        <Button titulo="BICICLETA"></Button>
+      <Link to="/bici" style={{ display: "inline-block" }}>
+      <Card className="card max-w-sm">
+                <img
+                    src="asset/bicibleta.png"
+                    alt="Asegurar"
+                    style={{
+                      width: "100px",
+                      height: "100px",
+                      display: "block",
+                      margin: "auto",
+                    }}
+                  />
+                  <h3 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white" style={{textAlign:"center"}}>
+                    Bicicleta
+                  </h3>
+                </Card>
       </Link>
-      <Link to="/celular">
-        <Button titulo="CELULAR"></Button>
+      <Link to="/celular" style={{ display: "inline-block" }}>
+      <Card className="card max-w-sm">
+                <img
+                    src="asset/celular.png"
+                    alt="Asegurar"
+                    style={{
+                      width: "100px",
+                      height: "100px",
+                      display: "block",
+                      margin: "auto",
+                    }}
+                  />
+                  <h3 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white" style={{textAlign:"center"}}>
+                    Celular
+                  </h3>
+                </Card>
       </Link>
-      <ButtonVolver onClick={goBack} titulo="Volver"></ButtonVolver>
+      </div>
+      <img
+      onClick={goBack}
+              src="asset/siguiente.png"
+              alt="Asegurar"
+              style={{
+                transform: "rotate(180deg)",
+                width: "50px",
+                height: "50px",
+                display: "block",
+                margin: "auto",
+                cursor:"pointer"
+              }}
+            />
     </div>
+
   );
 }
 

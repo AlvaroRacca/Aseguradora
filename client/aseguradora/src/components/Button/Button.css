@@ -1,57 +1,36 @@
-.button {
-    text-decoration: none;
-    width: 200px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    text-align: center;
-    justify-content: flex-start;
-    gap: 10px;
-    margin: 20px auto;
-    padding: 3px 15px;
-    background-color: rgb(66, 66, 66);
-    border-radius: 10px;
-    color: white;
-    border: none;
-    position: relative;
-    cursor: pointer;
-    transition-duration: .2s;
-  }
-  
-  .arrow {
-    position: absolute;
-    right: 0;
-    width: 30px;
-    height: 100%;
-    font-size: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .button:hover {
-    background-color: rgb(77, 77, 77);
-    transition-duration: .2s;
-  }
-  
-  .button:hover .arrow {
-    animation: slide-right .6s ease-out both;
-  }
-  /* arrow animation */
-  @keyframes slide-right {
-    0% {
-      transform: translateX(-10px);
-      opacity: 0;
-    }
-  
-    100% {
-      transform: translateX(0);
-      opacity: 1;
-    }
-  }
-  
-  .button:active {
-    transform: translate(1px , 1px);
-    transition-duration: .2s;
-  }
-  
+.card {
+  background-color: rgba(255, 255, 255, 0.459); /* Color de fondo con transparencia */
+  border-radius: 10px; /* Bordes redondeados */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transición suave */
+  overflow: hidden; /* Ocultar contenido que sobresalga */
+  margin: 30px; /* Margen entre tarjetas */
+  padding: 20px;
+  color: black;
+}
+
+.card:hover {
+  transform: translateY(-5px); /* Efecto de levantamiento al pasar el mouse */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada */
+}
+
+.card .content {
+  padding: 20px; /* Espaciado interno */
+}
+
+.card .title {
+  font-size: 20px; /* Tamaño del título */
+  font-weight: bold; /* Negrita */
+  color: #333; /* Color del texto */
+  margin-bottom: 10px; /* Margen inferior */
+}
+
+.card .description {
+  font-size: 16px; /* Tamaño del texto */
+  color: #666; /* Color del texto */
+}
+
+.asegurador_select {
+  margin: 0 auto;
+  width: 15%;
+}

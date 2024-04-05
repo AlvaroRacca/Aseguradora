@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import "./Historial_Informe.css";
-import ButtonVolver from "../BottonVolver/BottonVolver";
+import {ButtonVolver} from "../BottonVolver/BottonVolver";
 import { useNavigate } from "react-router-dom";
+import config from "../config";
 
 function HistorialInforme({ isAuthenticated }) {
   const [filtro, setFiltro] = useState("todas");
   const [informe, setInformes] = useState([]);
   const navigate = useNavigate();
   const [patenteBusqueda, setPatenteBusqueda] = useState("");
+  const DB_HOST = config.DB_HOST;
 
   const handleFiltroChange = (e) => {
     setFiltro(e.target.value);
@@ -27,7 +29,7 @@ function HistorialInforme({ isAuthenticated }) {
     try {
       // Hacer la solicitud para filtrar los datos según el filtro
       const response = await Axios.get(
-        `http://192.168.100.106:3001/obtener-informes/${filtro}`
+        `http://${DB_HOST}/obtener-informes/${filtro}`
       );
 
       const responseData = response.data;
@@ -88,7 +90,7 @@ function HistorialInforme({ isAuthenticated }) {
 
   return (
     <div className="historial-container">
-      <h1>Historial de Informes</h1>
+      <h1 className="h1-cotizacion">Historial de Informes</h1>
       <form className="form-inputs">
         <label>
           Filtrar por:

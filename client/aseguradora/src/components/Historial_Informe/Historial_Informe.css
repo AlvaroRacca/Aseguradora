@@ -32,7 +32,7 @@
 .form-select {
   border: none;
   border-radius: 10px;
-  margin: 0 0 10px 0; /* Alineado el margen inferior para mayor consistencia */
+  margin: 0  10px 0; /* Alineado el margen inferior para mayor consistencia */
   padding: 8px;
   font-size: 16px;
   background-color: #f9f9f9;

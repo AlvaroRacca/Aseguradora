@@ -79,6 +79,7 @@ app.post("/iniciar-sesion", async (req, res) => {
       id: user.id_usuario,
       username: user.nombre,
       nivel:user.nivel_acceso,
+      asegurador:user.id_asegurador
       // Agrega otros datos del usuario que desees incluir aquí
     };
 
@@ -96,6 +97,54 @@ app.post("/iniciar-sesion", async (req, res) => {
     });
   });
 });
+
+/* -------------------------------------------ASEGURADORES------------------------------------------- */
+app.get("/aseguradores", async (req, res) => {
+  // Consulta para obtener los aseguradores
+  const aseguradoresQuery = "SELECT * FROM USUARIO WHERE nivel_acceso = 1";
+  db.query(aseguradoresQuery, (err, aseguradoresResults) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ error: "Error en el servidor al obtener los aseguradores" });
+    }
+
+    // Consulta para obtener la cantidad de aseguradores
+    const cantAseguradoresQuery = "SELECT COUNT(*) AS count FROM USUARIO WHERE nivel_acceso = 1";
+    db.query(cantAseguradoresQuery, (err, aseguradoresCount) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({ error: "Error en el servidor al obtener la cantidad de aseguradores" });
+      }
+
+      // Consulta para obtener la cantidad de usuarios
+      const cantUsuariosQuery = "SELECT COUNT(*) AS count FROM USUARIO WHERE nivel_acceso = 5";
+      db.query(cantUsuariosQuery, (err, usuariosCount) => {
+        if (err) {
+          console.error(err);
+          return res.status(500).json({ error: "Error en el servidor al obtener la cantidad de usuarios" });
+        }
+
+        // Consulta para obtener la cantidad de informes
+        const cantInformesQuery = "SELECT COUNT(*) AS count FROM informe";
+        db.query(cantInformesQuery, (err, informesCount) => {
+          if (err) {
+            console.error(err);
+            return res.status(500).json({ error: "Error en el servidor al obtener la cantidad de informes" });
+          }
+
+          // Enviar resultados al cliente
+          res.status(200).json({
+            cantidadAseguradores: aseguradoresCount[0].count,
+            aseguradores: aseguradoresResults,
+            cantidadUsuarios: usuariosCount[0].count,
+            cantidadInformes: informesCount[0].count,
+          });
+        });
+      });
+    });
+  });
+});
+
 
 /* -------------------------------------------DATOS PERSONALES------------------------------------------- */
 app.post("/datos-personales", async (req, res) => {
@@ -160,6 +209,21 @@ function guardarCotizacion(datosCotizacion) {
     });
   });
 }
+
+/* -------------------------------------------ACTUALIZAR ASEGURADOR------------------------------------------- */
+app.get("/actualizar-asegurador/:idAsegurador/:idUsuario", async (req, res) => {
+  const { idAsegurador, idUsuario } = req.params;
+  const selectQuery = `update USUARIO set id_asegurador = ${idAsegurador} WHERE id_usuario = ${idUsuario}`;
+  db.query(selectQuery, (err, result) => {
+    if (err) {
+      console.error("Error al obtener las cotizaciones:", err);
+      res.status(500).json({ error: "Error al obtener las cotizaciones" });
+    } else {
+      res.status(200).json(result);
+    }
+  });
+});
+
 
 /* -------------------------------------------MOSTRAR COTIZACION------------------------------------------- */
 app.get("/mostrar-cotizaciones", (req, res) => {
@@ -469,7 +533,7 @@ app.post('/crear-poliza/:id', async (req, res) => {
   try {
     // Actualiza el estado de la póliza asociada al informe con el ID proporcionado
     await db.query('INSERT INTO poliza (id_informe, estado, vencimiento) VALUE (? ,"A", ?)', [id, fechaVencimiento]);
-    await db.query('UPDATE informe SET estado = "P" WHERE id_informe = ?', [id]);
+    await db.query('UPDATE informe SET estado = "A" WHERE id_informe = ?', [id]);
 
     // Devuelve una respuesta exitosa
     res.status(200).json({ message: 'Pago informado exitosamente' });
@@ -479,14 +543,14 @@ app.post('/crear-poliza/:id', async (req, res) => {
   }
 });
 /* -------------------------------------------DAR DE BAJA POLIZA ACTIVA------------------------------------------- */
-app.post('/dar-de-baja-poliza/:idPoliza', async (req, res) => {
-  const { idPoliza } = req.params;
+app.post('/dar-de-baja-poliza/:idPoliza/:idInforme', async (req, res) => {
+  const { idPoliza, idInforme } = req.params;
 
 
   try {
     // Actualiza el estado de la póliza asociada al informe con el ID proporcionado
-    await db.query('UPDATE poliza SET estado = "V" , vencimiento = CURRENT_DATE  WHERE id_poliza = ?', [idPoliza]);
-
+    await db.query('UPDATE poliza SET estado = "I" , vencimiento = CURRENT_DATE  WHERE id_poliza = ?', [idPoliza]);
+    await db.query('UPDATE informe SET estado = "A" WHERE id_informe = ?', [idInforme]);
     // Devuelve una respuesta exitosa
     res.status(200).json({ message: 'Pago informado exitosamente' });
   } catch (error) {

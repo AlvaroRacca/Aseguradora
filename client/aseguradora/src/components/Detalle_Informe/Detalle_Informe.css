@@ -64,10 +64,18 @@
 }
 
 .poliza-activa {
+  margin: 10px auto;
+  width: 30%;
+  border-radius: 10px;
+  text-align: center;
   background-color: green;
 }
 
 .sin-poliza-activa {
+  margin: 10px auto;
+  width: 30%;
+  border-radius: 10px;
+  text-align: center;
   background-color: red;
 }
 
@@ -105,4 +113,23 @@
     width: 80%;
     max-width: none;
   }
+}
+
+
+.crear-poliza-bt {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.crear-poliza-bt button {
+  text-transform: uppercase;
+  margin: 10px auto;
+  padding: 15px 5px;
+  border-radius: 10px ;
+  border-color: white ;
+  border: none;
+  text-align: center;
+  width: 45%;
+  cursor: pointer;
 }
